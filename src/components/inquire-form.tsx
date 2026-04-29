@@ -4,7 +4,7 @@ import { useState, useTransition } from "react";
 import { submitInquiry } from "@/app/actions/inquire";
 
 const fieldClass =
-  "w-full bg-transparent border border-border rounded-md px-4 py-3 text-base text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:border-foreground transition-colors";
+  "w-full bg-transparent border border-border rounded-md px-4 py-3 text-base text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:border-foreground transition-colors valid:bg-[#e8f0fe] valid:text-[#0a0e1a] valid:border-transparent valid:placeholder:text-[#0a0e1a]/40";
 
 const labelClass =
   "block text-sm font-medium text-muted-foreground mb-2";

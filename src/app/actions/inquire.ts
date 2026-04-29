@@ -53,11 +53,14 @@ export async function submitInquiry(formData: FormData): Promise<InquiryResult> 
   // and Gmail filters self-sends-via-alias out of Inbox.
   const inquiryTo = process.env.INQUIRY_TO ?? "aaron@phrona.io";
 
-  // --- Dev fallback: no SMTP creds → log and return success ---
+  // --- Dev fallback: no SMTP creds → log and return diagnostic to UI ---
   if (!smtpUser || !smtpPass) {
     console.log("[INQUIRY] SMTP not configured. Submission logged:");
     console.log(JSON.stringify(data, null, 2));
-    return { ok: true };
+    return {
+      ok: false,
+      error: `SMTP not configured (USER:${smtpUser ? "✓" : "✗"} PASS:${smtpPass ? "✓" : "✗"})`,
+    };
   }
 
   const transporter = nodemailer.createTransport({
@@ -114,9 +117,10 @@ export async function submitInquiry(formData: FormData): Promise<InquiryResult> 
     return { ok: true };
   } catch (err) {
     console.error("[INQUIRY] SMTP send failed:", err);
+    const detail = err instanceof Error ? err.message : String(err);
     return {
       ok: false,
-      error: "Something went wrong sending your inquiry. Please try emailing hello@phrona.io directly.",
+      error: `SMTP failed: ${detail}`,
     };
   }
 }

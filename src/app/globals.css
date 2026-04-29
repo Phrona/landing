@@ -112,3 +112,20 @@
 .pain-glow:hover::before {
   opacity: 1;
 }
+
+/* Form filled state for autofilled fields — overrides Chrome's hardcoded autofill bg.
+   Box-shadow inset trick is the only reliable way to substitute the autofill background.
+   Color matches the `valid:bg-[#e8f0fe]` Tailwind utility on form fields so autofilled
+   and manually-typed fields look identical when filled. */
+form input:-webkit-autofill,
+form input:-webkit-autofill:hover,
+form input:-webkit-autofill:focus,
+form textarea:-webkit-autofill,
+form textarea:-webkit-autofill:hover,
+form textarea:-webkit-autofill:focus {
+  -webkit-text-fill-color: #0a0e1a;
+  -webkit-box-shadow: 0 0 0 1000px #e8f0fe inset !important;
+  caret-color: #0a0e1a;
+  border-color: transparent !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
