@@ -1,0 +1,114 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-hero: var(--hero);
+  --color-hero-foreground: var(--hero-foreground);
+
+  /* Body + headings use Montserrat — matches logo wordmark for continuity.
+     `--font-mono` (Geist Mono) is used on numerals — matches workspace pattern. */
+  --font-sans: var(--font-montserrat), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-montserrat), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
+}
+
+:root {
+  /* Inverted scheme — navy canvas, white type. Marketing site is dark-dominant
+     while the app stays light-dominant. */
+  --background: #081122;
+  --foreground: #ffffff;
+  --muted: rgba(255, 255, 255, 0.06);
+  --muted-foreground: #cbd5e1;
+  --border: rgba(255, 255, 255, 0.10);
+
+  /* CTA — white button with navy type */
+  --hero: #ffffff;
+  --hero-foreground: #081122;
+
+  /* Coherence/resonance glow — cool blue, more luminous on dark canvas */
+  --accent-glow: 120, 180, 255;
+
+  --radius: 0.625rem;
+}
+
+@layer base {
+  body {
+    background: var(--background);
+    color: var(--foreground);
+  }
+  h1, h2, h3 {
+    font-family: var(--font-heading);
+    font-feature-settings: "ss01", "ss02", "cv01";
+    letter-spacing: -0.01em;
+  }
+}
+
+/* Logo halo — drop-shadow stack. Three layers (sharp inner, mid, outer atmosphere)
+   for a soft luminous halo. Glow is structurally tied to letterform density —
+   the dense P-mark naturally throws more shadow than thin glyphs, which reads
+   as the logo "lighting up" at its anchor. */
+.phrona-logo-glow {
+  filter:
+    drop-shadow(0 0 18px rgba(var(--accent-glow), 0.55))
+    drop-shadow(0 0 48px rgba(var(--accent-glow), 0.30))
+    drop-shadow(0 0 96px rgba(var(--accent-glow), 0.15));
+}
+
+@keyframes phrona-pulse {
+  0%, 100% {
+    filter:
+      drop-shadow(0 0 16px rgba(var(--accent-glow), 0.50))
+      drop-shadow(0 0 44px rgba(var(--accent-glow), 0.28))
+      drop-shadow(0 0 88px rgba(var(--accent-glow), 0.14));
+  }
+  50% {
+    filter:
+      drop-shadow(0 0 26px rgba(var(--accent-glow), 0.85))
+      drop-shadow(0 0 64px rgba(var(--accent-glow), 0.50))
+      drop-shadow(0 0 128px rgba(var(--accent-glow), 0.28));
+  }
+}
+
+.phrona-logo-glow-pulse {
+  animation: phrona-pulse 5s ease-in-out infinite;
+}
+
+/* Pain-card hover halo — radial gradient pseudo-element behind each card.
+   Circular, centered, blurred, instant on/off (no transition).
+
+   Implementation notes:
+   - `isolation: isolate` creates a clean local stacking context so the
+     pseudo-element's z-index doesn't leak out and conflict with section bg.
+   - `z-index: -1` places the glow behind the card's text content but within
+     the local stacking context (so it stays painted, not hidden behind page bg).
+   - Literal rgb() values used (not var-substituted rgba) for cross-browser
+     reliability — multi-value variable substitution into rgba() is known to
+     fail silently in some Lightning CSS / Tailwind v4 configurations. */
+.pain-glow {
+  position: relative;
+  isolation: isolate;
+}
+.pain-glow::before {
+  content: "";
+  position: absolute;
+  inset: -4rem;
+  border-radius: 2rem;
+  background: radial-gradient(
+    circle at center,
+    rgba(120, 180, 255, 0.30),
+    rgba(120, 180, 255, 0.12) 30%,
+    rgba(120, 180, 255, 0.04) 60%,
+    transparent 85%
+  );
+  filter: blur(32px);
+  opacity: 0;
+  pointer-events: none;
+  z-index: -1;
+}
+.pain-glow:hover::before {
+  opacity: 1;
+}
