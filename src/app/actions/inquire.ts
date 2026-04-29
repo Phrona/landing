@@ -53,14 +53,11 @@ export async function submitInquiry(formData: FormData): Promise<InquiryResult> 
   // and Gmail filters self-sends-via-alias out of Inbox.
   const inquiryTo = process.env.INQUIRY_TO ?? "aaron@phrona.io";
 
-  // --- Dev fallback: no SMTP creds → log and return diagnostic to UI ---
+  // --- Dev fallback: no SMTP creds → log and return success ---
   if (!smtpUser || !smtpPass) {
     console.log("[INQUIRY] SMTP not configured. Submission logged:");
     console.log(JSON.stringify(data, null, 2));
-    return {
-      ok: false,
-      error: `SMTP not configured (USER:${smtpUser ? "✓" : "✗"} PASS:${smtpPass ? "✓" : "✗"})`,
-    };
+    return { ok: true };
   }
 
   const transporter = nodemailer.createTransport({
@@ -117,10 +114,9 @@ export async function submitInquiry(formData: FormData): Promise<InquiryResult> 
     return { ok: true };
   } catch (err) {
     console.error("[INQUIRY] SMTP send failed:", err);
-    const detail = err instanceof Error ? err.message : String(err);
     return {
       ok: false,
-      error: `SMTP failed: ${detail}`,
+      error: "Something went wrong sending your inquiry. Please try emailing hello@phrona.io directly.",
     };
   }
 }
@@ -162,10 +158,10 @@ function emailShell(inner: string): string {
 }
 
 function header(eyebrow?: string): string {
-  return `<div style="background:${NAVY};padding:28px 40px 24px 40px;border-bottom:2px solid ${CYAN};">
-    <div style="color:#ffffff;font-size:18px;font-weight:600;letter-spacing:0.22em;">PHRONA</div>${
+  return `<div style="background:${NAVY};padding:32px 40px;">
+    <img src="https://phrona.io/email-logo-phrona.png" width="140" height="55" alt="Phrona" style="display:block;border:0;outline:none;text-decoration:none;height:auto;line-height:100%;" />${
       eyebrow
-        ? `<div style="color:#9aa3b3;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;margin-top:8px;">${escapeHtml(
+        ? `<div style="color:#9aa3b3;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;margin-top:18px;">${escapeHtml(
             eyebrow,
           )}</div>`
         : ""
@@ -184,7 +180,7 @@ function autoReplyHtml(firstName: string): string {
       <p style="margin:0;font-size:16px;line-height:1.55;color:${NAVY};">&mdash; Phrona</p>
     </div>
     <div style="background:${SURFACE};padding:18px 40px;color:${SUBTLE};font-size:12px;line-height:1.5;">
-      Phrona, Inc. &middot; 6209 Hewetson Dr, Austin, TX 78738 &middot; <a href="https://phrona.io" style="color:${SUBTLE};text-decoration:underline;">phrona.io</a>
+      Phrona, Inc. &middot; <a href="https://phrona.io" style="color:${SUBTLE};text-decoration:underline;">phrona.io</a>
     </div>`,
   );
 }
