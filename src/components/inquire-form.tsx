@@ -41,13 +41,16 @@ export function InquireForm() {
 
   return (
     <form action={onSubmit} className="text-left space-y-6">
-      {/* Honeypot — hidden from humans, irresistible to bots */}
+      {/* Honeypot — hidden from humans, irresistible to bots. Name must stay
+          meaningless to autofill heuristics (never "url"/"company"/"website" —
+          Chrome autofills hidden fields it recognizes, silently dropping real
+          submissions). */}
       <div aria-hidden="true" className="absolute -left-[9999px]">
-        <label htmlFor="company_url">Don&apos;t fill this out:</label>
+        <label htmlFor="no_fill">Don&apos;t fill this out:</label>
         <input
           type="text"
-          name="company_url"
-          id="company_url"
+          name="no_fill"
+          id="no_fill"
           tabIndex={-1}
           autoComplete="off"
         />

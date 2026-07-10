@@ -21,9 +21,17 @@ export type InquiryResult =
  */
 export async function submitInquiry(formData: FormData): Promise<InquiryResult> {
   // --- Anti-spam: honeypot field ---
-  // Bots fill in every field; humans don't see this one.
-  const honeypot = formData.get("company_url");
+  // Bots fill in every field; humans don't see this one. Field name must stay
+  // meaningless to browser autofill heuristics (the original name company_url
+  // was autofill bait — Chrome fills hidden "url"/"company" fields, which
+  // silently dropped real submissions). Log every trip so a false positive is
+  // at least recoverable from function logs.
+  const honeypot = formData.get("no_fill");
   if (honeypot && String(honeypot).trim().length > 0) {
+    console.warn(
+      "[INQUIRY] honeypot tripped — submission dropped:",
+      JSON.stringify(Object.fromEntries(formData.entries())),
+    );
     // Pretend success; silently drop.
     return { ok: true };
   }
@@ -53,10 +61,20 @@ export async function submitInquiry(formData: FormData): Promise<InquiryResult> 
   // and Gmail filters self-sends-via-alias out of Inbox.
   const inquiryTo = process.env.INQUIRY_TO ?? "aaron@phrona.io";
 
-  // --- Dev fallback: no SMTP creds → log and return success ---
+  // --- No SMTP creds ---
+  // Dev: log and return success so the UX path is testable without real mail.
+  // Production: this is a misconfiguration, and faking success here silently
+  // discards a real prospect — fail loudly instead.
   if (!smtpUser || !smtpPass) {
-    console.log("[INQUIRY] SMTP not configured. Submission logged:");
-    console.log(JSON.stringify(data, null, 2));
+    console.error("[INQUIRY] SMTP not configured. Submission:");
+    console.error(JSON.stringify(data, null, 2));
+    if (process.env.NODE_ENV === "production") {
+      return {
+        ok: false,
+        error:
+          "Something went wrong sending your inquiry. Please email hello@phrona.io directly.",
+      };
+    }
     return { ok: true };
   }
 
