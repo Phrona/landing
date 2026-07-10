@@ -1,5 +1,6 @@
 "use server";
 
+import { neon } from "@neondatabase/serverless";
 import nodemailer from "nodemailer";
 
 export type InquiryResult =
@@ -55,6 +56,13 @@ export async function submitInquiry(formData: FormData): Promise<InquiryResult> 
     return { ok: false, error: "Please keep your note under 2000 characters." };
   }
 
+  // --- Persistence BEFORE send ---
+  // The table (landing_inquiries, Neon) is the durable record; email is only
+  // the notification channel. A delivery failure after this point means a
+  // recoverable row, not a lost lead. No DATABASE_URL = persistence skipped
+  // (logged), never blocks the email path.
+  const inquiryId = await persistInquiry(data);
+
   const smtpUser = process.env.SMTP_USER;
   const smtpPass = process.env.SMTP_PASS;
   // Default to aaron@phrona.io directly. hello@phrona.io is an alias of aaron@,
@@ -68,6 +76,7 @@ export async function submitInquiry(formData: FormData): Promise<InquiryResult> 
   if (!smtpUser || !smtpPass) {
     console.error("[INQUIRY] SMTP not configured. Submission:");
     console.error(JSON.stringify(data, null, 2));
+    await markInquiryStatus(inquiryId, "smtp_unconfigured");
     if (process.env.NODE_ENV === "production") {
       return {
         ok: false,
@@ -129,13 +138,60 @@ export async function submitInquiry(formData: FormData): Promise<InquiryResult> 
       html: autoReplyHtml(firstName),
     });
 
+    await markInquiryStatus(inquiryId, "sent");
     return { ok: true };
   } catch (err) {
     console.error("[INQUIRY] SMTP send failed:", err);
+    await markInquiryStatus(inquiryId, "send_failed");
+    // The submission is already persisted (if DB configured) — a delivery
+    // failure is recoverable, but the user should still know we hiccupped.
     return {
       ok: false,
       error: "Something went wrong sending your inquiry. Please try emailing hello@phrona.io directly.",
     };
+  }
+}
+
+/**
+ * Write the submission to the landing_inquiries table (Neon) before any
+ * email attempt. Returns the row id, or null when the DB is unconfigured
+ * or the write fails — persistence must never block the email path.
+ */
+async function persistInquiry(data: {
+  name: string;
+  email: string;
+  company: string;
+  role: string;
+  context: string;
+}): Promise<number | null> {
+  const dbUrl = process.env.DATABASE_URL;
+  if (!dbUrl) {
+    console.warn("[INQUIRY] DATABASE_URL not set — submission NOT persisted.");
+    return null;
+  }
+  try {
+    const sql = neon(dbUrl);
+    const rows = await sql`
+      INSERT INTO landing_inquiries (name, email, company, role, context)
+      VALUES (${data.name}, ${data.email}, ${data.company}, ${data.role}, ${data.context})
+      RETURNING id
+    `;
+    return (rows[0]?.id as number) ?? null;
+  } catch (err) {
+    console.error("[INQUIRY] persistence failed:", err);
+    return null;
+  }
+}
+
+/** Record the delivery outcome on the persisted row (best-effort). */
+async function markInquiryStatus(id: number | null, status: string): Promise<void> {
+  const dbUrl = process.env.DATABASE_URL;
+  if (id === null || !dbUrl) return;
+  try {
+    const sql = neon(dbUrl);
+    await sql`UPDATE landing_inquiries SET email_status = ${status} WHERE id = ${id}`;
+  } catch (err) {
+    console.error("[INQUIRY] status update failed:", err);
   }
 }
 
