@@ -7,6 +7,12 @@ export function Footer() {
         </div>
         <nav className="flex flex-wrap gap-x-8 gap-y-3 text-sm text-[rgba(255,255,255,0.4)]">
           <a
+            href="/understanding-phrona"
+            className="hover:text-[rgba(255,255,255,0.75)] transition-colors"
+          >
+            Understanding Phrona
+          </a>
+          <a
             href="/privacy"
             className="hover:text-[rgba(255,255,255,0.75)] transition-colors"
           >
