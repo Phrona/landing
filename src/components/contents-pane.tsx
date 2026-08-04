@@ -1,7 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { CONTENTS, CONTENT_GROUPS, slugify } from "@/lib/understanding-contents";
+import { useEffect, useRef } from "react";
+import {
+  CONTENTS,
+  CONTENT_GROUPS,
+  slugify,
+} from "@/lib/understanding-contents";
+import { keepItemInView, useActiveSection } from "@/lib/use-active-section";
 
 /**
  * Sticky contents pane for the Understanding Phrona page (lg and up).
@@ -17,64 +22,16 @@ import { CONTENTS, CONTENT_GROUPS, slugify } from "@/lib/understanding-contents"
  * triggers more than one layout pass.
  */
 
-/** Where a heading counts as "current" — below the sticky header, not at the very top. */
-const ACTIVE_LINE_PX = 140;
-
 /** The opening, before the questions start. Anchored in the page itself. */
 const INTRO = { id: "intro", label: "Intro" };
 
 export function ContentsPane() {
-  const [active, setActive] = useState<string | null>(null);
   const paneRef = useRef<HTMLElement | null>(null);
   const itemRefs = useRef(new Map<string, HTMLAnchorElement>());
+  const active = useActiveSection([INTRO.id, ...CONTENTS.map(slugify)]);
 
   useEffect(() => {
-    const ids = [INTRO.id, ...CONTENTS.map(slugify)];
-    let frame = 0;
-
-    const update = () => {
-      frame = 0;
-      // Sections are in document order, so the first heading still below the
-      // line means every later one is too — stop there.
-      let current: string | null = null;
-      for (const id of ids) {
-        const el = document.getElementById(id);
-        if (!el) continue;
-        if (el.getBoundingClientRect().top <= ACTIVE_LINE_PX) current = id;
-        else break;
-      }
-      setActive(current);
-    };
-
-    const onScroll = () => {
-      if (!frame) frame = requestAnimationFrame(update);
-    };
-
-    update();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-      if (frame) cancelAnimationFrame(frame);
-    };
-  }, []);
-
-  // Keep the lit item visible when the list is taller than the pane. Scrolls
-  // the pane itself — scrollIntoView would also move the page and fight the
-  // reader's own scrolling.
-  useEffect(() => {
-    if (!active) return;
-    const pane = paneRef.current;
-    const item = itemRefs.current.get(active);
-    if (!pane || !item) return;
-    const paneBox = pane.getBoundingClientRect();
-    const itemBox = item.getBoundingClientRect();
-    if (itemBox.top < paneBox.top) {
-      pane.scrollTop += itemBox.top - paneBox.top - 12;
-    } else if (itemBox.bottom > paneBox.bottom) {
-      pane.scrollTop += itemBox.bottom - paneBox.bottom + 12;
-    }
+    if (active) keepItemInView(paneRef.current, itemRefs.current.get(active));
   }, [active]);
 
   return (

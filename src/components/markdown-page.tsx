@@ -1,4 +1,5 @@
 import ReactMarkdown from "react-markdown";
+import { SectionRail } from "@/components/section-rail";
 
 /**
  * Renders a long-form legal markdown doc with:
@@ -101,13 +102,7 @@ const components = {
   em: ({ children }: { children?: React.ReactNode }) => (
     <em className="italic">{children}</em>
   ),
-  a: ({
-    href,
-    children,
-  }: {
-    href?: string;
-    children?: React.ReactNode;
-  }) => (
+  a: ({ href, children }: { href?: string; children?: React.ReactNode }) => (
     <a
       href={href}
       className="text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground"
@@ -145,15 +140,11 @@ const components = {
   ),
 };
 
-function TableOfContents({
-  sections,
-}: {
-  sections: Array<{ title: string }>;
-}) {
+function TableOfContents({ sections }: { sections: Array<{ title: string }> }) {
   return (
     <nav
       aria-label="Table of contents"
-      className="my-12 px-8 py-8 rounded-xl border border-border bg-[rgba(255,255,255,0.015)]"
+      className="lg:hidden my-12 px-8 py-8 rounded-xl border border-border bg-[rgba(255,255,255,0.015)]"
     >
       <h2 className="font-heading text-lg sm:text-xl font-semibold text-foreground mb-5">
         Table of Contents
@@ -203,44 +194,49 @@ export function MarkdownPage({ source }: { source: string }) {
   const { preface, sections } = parseSections(source);
 
   return (
-    <article
-      id="top"
-      className="font-sans text-base sm:text-lg text-muted-foreground leading-relaxed scroll-mt-12"
-    >
-      {/* H1 + preface (banners, dates, intro) */}
-      <ReactMarkdown components={components}>{preface}</ReactMarkdown>
+    <div className="lg:grid lg:grid-cols-[17rem_minmax(0,48rem)] lg:gap-16">
+      <SectionRail
+        sections={sections.map((s) => ({
+          id: slugify(s.title),
+          label: s.title,
+        }))}
+      />
 
-      {sections.length > 0 && <TableOfContents sections={sections} />}
+      <article
+        id="top"
+        className="font-sans text-base sm:text-lg text-muted-foreground leading-relaxed scroll-mt-12 min-w-0"
+      >
+        {/* H1 + preface (banners, dates, intro) */}
+        <ReactMarkdown components={components}>{preface}</ReactMarkdown>
 
-      {/* Numbered sections — each with its own anchor for TOC linking */}
-      {sections.map((section, i) => {
-        const slug = slugify(section.title);
-        return (
-          <section
-            key={slug}
-            id={slug}
-            className="mt-16 scroll-mt-24"
-          >
-            <SectionHeader num={i + 1} title={section.title} />
-            <ReactMarkdown components={components}>
-              {section.content}
-            </ReactMarkdown>
-          </section>
-        );
-      })}
+        {sections.length > 0 && <TableOfContents sections={sections} />}
 
-      {/* Back to top — outlined chip, subtle */}
-      {sections.length > 0 && (
-        <div className="mt-20 mb-4">
-          <a
-            href="#top"
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-md border border-border text-sm text-muted-foreground hover:text-foreground hover:border-[rgba(120,180,255,0.4)] transition-colors no-underline"
-          >
-            <span aria-hidden>↑</span>
-            <span>Back to top</span>
-          </a>
-        </div>
-      )}
-    </article>
+        {/* Numbered sections — each with its own anchor for TOC linking */}
+        {sections.map((section, i) => {
+          const slug = slugify(section.title);
+          return (
+            <section key={slug} id={slug} className="mt-16 scroll-mt-24">
+              <SectionHeader num={i + 1} title={section.title} />
+              <ReactMarkdown components={components}>
+                {section.content}
+              </ReactMarkdown>
+            </section>
+          );
+        })}
+
+        {/* Back to top — outlined chip, subtle */}
+        {sections.length > 0 && (
+          <div className="mt-20 mb-4">
+            <a
+              href="#top"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-md border border-border text-sm text-muted-foreground hover:text-foreground hover:border-[rgba(120,180,255,0.4)] transition-colors no-underline"
+            >
+              <span aria-hidden>↑</span>
+              <span>Back to top</span>
+            </a>
+          </div>
+        )}
+      </article>
+    </div>
   );
 }
