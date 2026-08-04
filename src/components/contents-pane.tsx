@@ -78,7 +78,7 @@ export function ContentsPane() {
     <aside
       ref={paneRef}
       aria-label="Contents"
-      className="hidden lg:block sticky top-24 self-start max-h-[calc(100vh-8rem)] overflow-y-auto pr-3"
+      className="hidden lg:block sticky top-20 self-start max-h-[calc(100vh-6.5rem)] overflow-y-auto pr-3"
     >
       {CONTENT_GROUPS.map((group, gi) => {
         // Numbering runs 01–20 across the whole document, not per group.
@@ -87,7 +87,7 @@ export function ContentsPane() {
           0,
         );
         return (
-          <div key={group.label} className={gi === 0 ? "" : "mt-7"}>
+          <div key={group.label} className={gi === 0 ? "" : "mt-3.5"}>
             <p className="font-heading text-[10px] uppercase tracking-[0.18em] text-[rgba(255,255,255,0.32)] mb-3">
               {group.label}
             </p>

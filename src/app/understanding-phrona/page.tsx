@@ -149,7 +149,7 @@ export default function UnderstandingPhrona() {
   return (
     <main className="flex flex-1 flex-col">
       <article className="px-6 pb-24 sm:pb-32">
-        <div className="max-w-[69rem] mx-auto pt-16 sm:pt-24 lg:grid lg:grid-cols-[17rem_minmax(0,48rem)] lg:gap-16">
+        <div className="max-w-[69rem] mx-auto pt-8 sm:pt-12 lg:grid lg:grid-cols-[17rem_minmax(0,48rem)] lg:gap-16">
           <ContentsPane />
 
           <div className="min-w-0 max-w-3xl">

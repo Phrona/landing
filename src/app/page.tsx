@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { InquireForm } from "@/components/inquire-form";
 
 const PAIN_POINTS = [
@@ -60,12 +61,21 @@ export default function Home() {
           Your strategy. Made coherent. Brought to life.
         </h1>
 
-        <a
-          href="#inquire"
-          className="inline-flex items-center justify-center px-10 py-5 bg-hero text-hero-foreground rounded-full text-lg font-bold hover:opacity-100 hover:shadow-[0_0_28px_rgba(120,180,255,0.65),0_0_64px_rgba(120,180,255,0.40)]"
-        >
-          Join our founding cohort
-        </a>
+        <div className="flex flex-col items-center gap-8">
+          <a
+            href="#inquire"
+            className="inline-flex items-center justify-center px-10 py-5 bg-hero text-hero-foreground rounded-full text-lg font-bold hover:opacity-100 hover:shadow-[0_0_28px_rgba(120,180,255,0.65),0_0_64px_rgba(120,180,255,0.40)]"
+          >
+            Join our founding cohort
+          </a>
+          <Link
+            href="/understanding-phrona"
+            className="inline-flex items-center gap-2 text-base sm:text-lg text-muted-foreground hover:text-foreground transition-colors"
+          >
+            Learn more
+            <span aria-hidden>&rarr;</span>
+          </Link>
+        </div>
       </section>
 
       {/* Pain → Root → Resolution → CTA */}
