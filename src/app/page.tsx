@@ -41,6 +41,29 @@ const PAIN_POINTS = [
   },
 ];
 
+/**
+ * The page's call to action: join, or read first. Both placements use this,
+ * so the secondary door is never missing from one of them.
+ */
+function CallToAction() {
+  return (
+    <div className="flex flex-col items-center gap-8">
+      <a
+        href="#inquire"
+        className="inline-flex items-center justify-center px-10 py-5 bg-hero text-hero-foreground rounded-full text-lg font-bold hover:opacity-100 hover:shadow-[0_0_28px_rgba(120,180,255,0.65),0_0_64px_rgba(120,180,255,0.40)]"
+      >
+        Join our founding cohort
+      </a>
+      <Link
+        href="/understanding-phrona"
+        className="inline-flex items-center justify-center px-10 py-5 bg-muted-foreground text-hero-foreground rounded-full text-lg font-bold hover:shadow-[0_0_20px_rgba(120,180,255,0.40),0_0_44px_rgba(120,180,255,0.22)] transition-shadow"
+      >
+        Learn more
+      </Link>
+    </div>
+  );
+}
+
 export default function Home() {
   return (
     <main className="flex flex-1 flex-col">
@@ -61,21 +84,7 @@ export default function Home() {
           Your strategy. Made coherent. Brought to life.
         </h1>
 
-        <div className="flex flex-col items-center gap-8">
-          <a
-            href="#inquire"
-            className="inline-flex items-center justify-center px-10 py-5 bg-hero text-hero-foreground rounded-full text-lg font-bold hover:opacity-100 hover:shadow-[0_0_28px_rgba(120,180,255,0.65),0_0_64px_rgba(120,180,255,0.40)]"
-          >
-            Join our founding cohort
-          </a>
-          <Link
-            href="/understanding-phrona"
-            className="inline-flex items-center gap-2 text-base sm:text-lg text-muted-foreground hover:text-foreground transition-colors"
-          >
-            Learn more
-            <span aria-hidden>&rarr;</span>
-          </Link>
-        </div>
+        <CallToAction />
       </section>
 
       {/* Pain → Root → Resolution → CTA */}
@@ -131,12 +140,7 @@ export default function Home() {
               life and keeps it current while the world changes around you.
             </p>
 
-            <a
-              href="#inquire"
-              className="inline-flex items-center justify-center px-10 py-5 bg-hero text-hero-foreground rounded-full text-lg font-bold hover:opacity-100 hover:shadow-[0_0_28px_rgba(120,180,255,0.65),0_0_64px_rgba(120,180,255,0.40)]"
-            >
-              Join our founding cohort
-            </a>
+            <CallToAction />
           </div>
         </div>
       </section>
