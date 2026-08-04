@@ -91,7 +91,7 @@ export function ContentsPane() {
             <p className="font-heading text-[10px] uppercase tracking-[0.18em] text-[rgba(255,255,255,0.32)] mb-3">
               {group.label}
             </p>
-            <ol className="flex flex-col gap-3.5 list-none m-0 p-0">
+            <ol className="flex flex-col gap-[7px] list-none m-0 p-0">
               {group.questions.map((question, i) => {
                 const { title } = question;
                 const id = slugify(title);
