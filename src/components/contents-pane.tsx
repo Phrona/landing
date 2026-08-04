@@ -92,7 +92,8 @@ export function ContentsPane() {
               {group.label}
             </p>
             <ol className="flex flex-col gap-3.5 list-none m-0 p-0">
-              {group.questions.map((title, i) => {
+              {group.questions.map((question, i) => {
+                const { title } = question;
                 const id = slugify(title);
                 const isActive = active === id;
                 return (
@@ -119,7 +120,7 @@ export function ContentsPane() {
                           : "text-[rgba(255,255,255,0.42)] hover:text-[rgba(255,255,255,0.75)]"
                       }`}
                     >
-                      {title}
+                      {"nav" in question ? question.nav : title}
                     </a>
                   </li>
                 );

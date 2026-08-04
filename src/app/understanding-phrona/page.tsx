@@ -102,13 +102,13 @@ function Contents() {
               {group.label}
             </p>
             <ol className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-2.5 list-none m-0 p-0">
-              {group.questions.map((title) => (
-                <li key={title} className="m-0">
+              {group.questions.map((question) => (
+                <li key={question.title} className="m-0">
                   <a
-                    href={`#${slugify(title)}`}
+                    href={`#${slugify(question.title)}`}
                     className="block text-base text-[rgba(255,255,255,0.55)] hover:text-foreground transition-colors leading-relaxed"
                   >
-                    {title}
+                    {"nav" in question ? question.nav : question.title}
                   </a>
                 </li>
               ))}

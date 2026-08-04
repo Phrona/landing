@@ -4,59 +4,101 @@
  * One list, three consumers: the section headings, the mobile contents card,
  * and the sticky pane's scroll-spy. Anchors are derived rather than written
  * down, so retitling a question can't strand a link.
+ *
+ * `nav` is the short form used in the contents rail. A heading can afford a
+ * full sentence across 48rem; a 17rem rail can't, and a rail where every
+ * entry wraps to two lines is one that scrolls — which defeats the point of
+ * having the whole document one click away. Where `nav` is absent the
+ * question is already short enough to stand as-is.
  */
 export const CONTENT_GROUPS = [
   {
     label: "What it is",
     questions: [
-      "What is Phrona?",
-      "What is “infrastructure for strategy”?",
-      "Why doesn’t infrastructure for strategy already exist?",
-      "Will every company eventually need strategy infrastructure?",
+      { title: "What is Phrona?" },
+      {
+        title: "What is “infrastructure for strategy”?",
+        nav: "Infrastructure for strategy",
+      },
+      {
+        title: "Why doesn’t infrastructure for strategy already exist?",
+        nav: "Why doesn’t it exist yet?",
+      },
+      {
+        title: "Will every company eventually need strategy infrastructure?",
+        nav: "Will everyone need it?",
+      },
     ],
   },
   {
     label: "How it works",
     questions: [
-      "How does Phrona work?",
-      "Does Phrona make strategic decisions?",
+      { title: "How does Phrona work?" },
+      {
+        title: "Does Phrona make strategic decisions?",
+        nav: "Does it decide for you?",
+      },
     ],
   },
   {
     label: "What it isn’t",
     questions: [
-      "Can’t Claude (or ChatGPT or Gemini) do the same thing?",
-      "Isn’t this just a knowledge graph? Or GraphRAG?",
-      "So it’s just competitive intelligence, then?",
-      "Isn’t this just strategy software? Or another OKR platform?",
-      "Why not just hire a consultant?",
-      "Doesn’t my team already own this?",
+      {
+        title: "Can’t Claude (or ChatGPT or Gemini) do the same thing?",
+        nav: "Isn’t this just ChatGPT?",
+      },
+      {
+        title: "Isn’t this just a knowledge graph? Or GraphRAG?",
+        nav: "Knowledge graph? GraphRAG?",
+      },
+      {
+        title: "So it’s just competitive intelligence, then?",
+        nav: "Competitive intelligence?",
+      },
+      {
+        title: "Isn’t this just strategy software? Or another OKR platform?",
+        nav: "Strategy software? OKRs?",
+      },
+      { title: "Why not just hire a consultant?" },
+      {
+        title: "Doesn’t my team already own this?",
+        nav: "Doesn’t my team own this?",
+      },
     ],
   },
   {
     label: "What changes",
     questions: [
-      "What changes when a company has infrastructure for strategy?",
-      "What this means in practice",
-      "Is Phrona just another system to maintain?",
+      {
+        title: "What changes when a company has infrastructure for strategy?",
+        nav: "What changes",
+      },
+      { title: "What this means in practice" },
+      {
+        title: "Is Phrona just another system to maintain?",
+        nav: "Another system to maintain?",
+      },
     ],
   },
   {
     label: "What you get",
     questions: [
-      "What does Phrona deliver?",
-      "Who is Phrona for?",
-      "How is our strategy kept private?",
-      "What is the Founding Cohort?",
-      "How do we get started?",
+      { title: "What does Phrona deliver?" },
+      { title: "Who is Phrona for?" },
+      { title: "How is our strategy kept private?" },
+      { title: "What is the Founding Cohort?" },
+      { title: "How do we get started?" },
     ],
   },
 ] as const;
 
 /** Flat document order — the groups exist for navigation, not for the page. */
-export const CONTENTS = CONTENT_GROUPS.flatMap((g) => g.questions);
+export const CONTENTS = CONTENT_GROUPS.flatMap((g) =>
+  g.questions.map((q) => q.title),
+);
 
-/** Anchor id for a question. */
+/** Anchor id for a question. Always derived from the full title, never the
+    short nav form, so shortening a label can't move an anchor. */
 export function slugify(title: string): string {
   return title
     .toLowerCase()
