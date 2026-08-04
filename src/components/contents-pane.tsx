@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { CONTENTS, slugify } from "@/lib/understanding-contents";
+import { CONTENTS, CONTENT_GROUPS, slugify } from "@/lib/understanding-contents";
 
 /**
  * Sticky contents pane for the Understanding Phrona page (lg and up).
@@ -80,43 +80,38 @@ export function ContentsPane() {
       aria-label="Contents"
       className="hidden lg:block sticky top-24 self-start max-h-[calc(100vh-8rem)] overflow-y-auto pr-3"
     >
-      <p className="font-heading text-xs uppercase tracking-[0.16em] text-muted-foreground mb-6">
-        Contents
-      </p>
-      <ol className="space-y-4 list-none m-0 p-0">
-        {CONTENTS.map((title, i) => {
-          const id = slugify(title);
-          const isActive = active === id;
-          return (
-            <li key={title} className="flex gap-3 items-baseline m-0">
-              <span
-                className={`font-mono text-[10px] slashed-zero tabular-nums w-5 shrink-0 transition-colors ${
-                  isActive
-                    ? "text-[rgb(120,180,255)]"
-                    : "text-[rgba(120,180,255,0.45)]"
-                }`}
-              >
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              <a
-                ref={(el) => {
-                  if (el) itemRefs.current.set(id, el);
-                  else itemRefs.current.delete(id);
-                }}
-                href={`#${id}`}
-                aria-current={isActive ? "location" : undefined}
-                className={`text-sm leading-snug transition-colors ${
-                  isActive
-                    ? "text-foreground"
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                {title}
-              </a>
-            </li>
-          );
-        })}
-      </ol>
+      {CONTENT_GROUPS.map((group, gi) => (
+        <div key={group.label} className={gi === 0 ? "" : "mt-11"}>
+          <p className="font-heading text-[11px] uppercase tracking-[0.18em] text-[rgba(255,255,255,0.32)] mb-4">
+            {group.label}
+          </p>
+          <ol className="flex flex-col gap-6 list-none m-0 p-0">
+            {group.questions.map((title) => {
+              const id = slugify(title);
+              const isActive = active === id;
+              return (
+                <li key={title} className="m-0">
+                  <a
+                    ref={(el) => {
+                      if (el) itemRefs.current.set(id, el);
+                      else itemRefs.current.delete(id);
+                    }}
+                    href={`#${id}`}
+                    aria-current={isActive ? "location" : undefined}
+                    className={`block text-sm leading-snug transition-colors ${
+                      isActive
+                        ? "text-white"
+                        : "text-[rgba(255,255,255,0.42)] hover:text-[rgba(255,255,255,0.75)]"
+                    }`}
+                  >
+                    {title}
+                  </a>
+                </li>
+              );
+            })}
+          </ol>
+        </div>
+      ))}
     </aside>
   );
 }

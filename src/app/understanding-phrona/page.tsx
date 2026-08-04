@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ContentsPane } from "@/components/contents-pane";
-import { CONTENTS, slugify } from "@/lib/understanding-contents";
+import { CONTENT_GROUPS, slugify } from "@/lib/understanding-contents";
 
 export const metadata: Metadata = {
   title: "Understanding Phrona",
@@ -54,17 +54,22 @@ const IN_PRACTICE = [
   "change direction while it’s still inexpensive.",
 ];
 
-/** A question block — heading, cyan rule, body. The page's repeating unit. */
+/**
+ * A question block. A cyan rule opens the question; a faint three-quarter
+ * rule closes the answer — so each Q&A reads as one bracketed unit rather
+ * than a heading with an underline.
+ */
 function Q({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <section id={slugify(title)} className="mt-20 first:mt-0 scroll-mt-24">
-      <h2 className="font-heading text-2xl sm:text-3xl font-medium leading-[1.2] mb-4">
+    <section id={slugify(title)} className="mt-24 first:mt-0 scroll-mt-24">
+      <div className="h-px w-full bg-[rgba(120,180,255,0.4)] mb-10" />
+      <h2 className="font-heading text-2xl sm:text-3xl font-medium leading-[1.2] mb-8">
         {title}
       </h2>
-      <div className="h-px w-16 bg-[rgba(120,180,255,0.4)] mb-8" />
       <div className="space-y-6 text-lg text-muted-foreground leading-relaxed">
         {children}
       </div>
+      <div className="h-px w-3/4 bg-border mt-12" />
     </section>
   );
 }
@@ -79,21 +84,27 @@ function Contents() {
       <p className="font-heading text-sm uppercase tracking-[0.16em] text-muted-foreground mb-6">
         Contents
       </p>
-      <ol className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-3 list-none m-0 p-0">
-        {CONTENTS.map((title, i) => (
-          <li key={title} className="flex gap-4 items-baseline m-0">
-            <span className="font-mono text-xs slashed-zero tabular-nums text-[rgb(120,180,255)] font-medium w-6 shrink-0">
-              {String(i + 1).padStart(2, "0")}
-            </span>
-            <a
-              href={`#${slugify(title)}`}
-              className="text-base text-muted-foreground hover:text-foreground transition-colors leading-relaxed"
-            >
-              {title}
-            </a>
-          </li>
+      <div className="space-y-8">
+        {CONTENT_GROUPS.map((group) => (
+          <div key={group.label}>
+            <p className="font-heading text-[11px] uppercase tracking-[0.18em] text-[rgba(255,255,255,0.32)] mb-3">
+              {group.label}
+            </p>
+            <ol className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-2.5 list-none m-0 p-0">
+              {group.questions.map((title) => (
+                <li key={title} className="m-0">
+                  <a
+                    href={`#${slugify(title)}`}
+                    className="block text-base text-[rgba(255,255,255,0.55)] hover:text-foreground transition-colors leading-relaxed"
+                  >
+                    {title}
+                  </a>
+                </li>
+              ))}
+            </ol>
+          </div>
         ))}
-      </ol>
+      </div>
     </nav>
   );
 }
@@ -221,7 +232,7 @@ export default function UnderstandingPhrona() {
             <Contents />
 
             {/* ——— The document proper ——— */}
-            <div className="mt-24 pt-20 border-t border-border">
+            <div className="mt-24 pt-20">
               <Q title="What is Phrona?">
                 <p className="text-foreground text-xl font-medium">
                   Phrona is infrastructure for strategy.
@@ -344,7 +355,7 @@ export default function UnderstandingPhrona() {
             </div>
 
             {/* ——— How it works ——— */}
-            <div className="mt-24 pt-20 border-t border-border">
+            <div className="mt-24 pt-20">
               <Q title="How does Phrona work?">
                 <p>Phrona operates through four moves:</p>
                 <ul className="mt-10 space-y-10 list-none">
@@ -379,7 +390,7 @@ export default function UnderstandingPhrona() {
             </div>
 
             {/* ——— What it isn't ——— */}
-            <div className="mt-24 pt-20 border-t border-border">
+            <div className="mt-24 pt-20">
               <Q title="Can’t Claude (or ChatGPT or Gemini) do the same thing?">
                 <p className="text-foreground font-medium">Not quite.</p>
                 <p>
@@ -479,7 +490,7 @@ export default function UnderstandingPhrona() {
             </div>
 
             {/* ——— What changes ——— */}
-            <div className="mt-24 pt-20 border-t border-border">
+            <div className="mt-24 pt-20">
               <Q title="What changes when a company has infrastructure for strategy?">
                 <p>
                   Strategy stops being an event and becomes a continuous
@@ -554,7 +565,7 @@ export default function UnderstandingPhrona() {
             </div>
 
             {/* ——— What you get ——— */}
-            <div className="mt-24 pt-20 border-t border-border">
+            <div className="mt-24 pt-20">
               <Q title="What does Phrona deliver?">
                 <p className="text-foreground font-medium">
                   Phrona delivers a continuously current understanding of your
@@ -663,7 +674,7 @@ export default function UnderstandingPhrona() {
             </div>
 
             {/* ——— Close ——— */}
-            <div className="mt-24 pt-20 border-t border-border text-center">
+            <div className="mt-24 pt-20 text-center">
               <p className="text-xl sm:text-2xl text-muted-foreground leading-relaxed mb-8">
                 Every company has convictions it cannot afford to get wrong.
               </p>

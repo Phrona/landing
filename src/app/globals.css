@@ -1,5 +1,19 @@
 @import "tailwindcss";
 
+/*
+  Phrona design tokens — LANDING SITE surface (dark-dominant canvas).
+  Canonical reference: ~/Desktop/Phrona/docs/DESIGN_TOKENS.md
+
+  Surface model:
+    - Landing site: navy canvas, white type, atmospheric brand glow
+    - Product app:  white canvas, navy type (separate globals.css in
+                    ~/Desktop/ACSG/ClaudeCode/products/phrona/frontend/)
+
+  Token names match the product app where the concept is shared (typography,
+  cyan, hero); values diverge where the surface inverts (background,
+  foreground, hero — landing's hero is white because it sits on navy).
+*/
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -9,8 +23,15 @@
   --color-hero: var(--hero);
   --color-hero-foreground: var(--hero-foreground);
 
+  /* Phrona cyan — Option C: surface-context-aware (LOCKED 2026-05-06).
+     Landing predominantly uses -luminous (atmospheric glow on navy canvas);
+     -grounded defined for parity with product app and rare light-band
+     overlays. */
+  --color-cyan-grounded: var(--cyan-grounded);
+  --color-cyan-luminous: var(--cyan-luminous);
+
   /* Body + headings use Montserrat — matches logo wordmark for continuity.
-     `--font-mono` (Geist Mono) is used on numerals — matches workspace pattern. */
+     `--font-mono` (Geist Mono) is used on numerals — matches product app. */
   --font-sans: var(--font-montserrat), ui-sans-serif, system-ui, sans-serif;
   --font-heading: var(--font-montserrat), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
@@ -18,19 +39,28 @@
 
 :root {
   /* Inverted scheme — navy canvas, white type. Marketing site is dark-dominant
-     while the app stays light-dominant. */
+     while the product app stays light-dominant. */
   --background: #081122;
   --foreground: #ffffff;
   --muted: rgba(255, 255, 255, 0.06);
   --muted-foreground: #cbd5e1;
   --border: rgba(255, 255, 255, 0.10);
 
-  /* CTA — white button with navy type */
+  /* CTA — white button with navy type (inverted from product app where
+     primary CTA is navy on white). */
   --hero: #ffffff;
   --hero-foreground: #081122;
 
-  /* Coherence/resonance glow — cool blue, more luminous on dark canvas */
-  --accent-glow: 120, 180, 255;
+  /* Phrona cyan — both variants defined for cross-surface consistency.
+     `--cyan-luminous-rgb` is the rgb triplet for transparency stacks
+     (logo halo, pain-card glow, etc.). */
+  --cyan-grounded: #62b6cb;
+  --cyan-luminous: #78b4ff;
+  --cyan-luminous-rgb: 120, 180, 255;
+
+  /* Legacy alias — retained so existing rules (.phrona-logo-glow,
+     .pain-glow) keep working. New code should use --cyan-luminous-rgb. */
+  --accent-glow: var(--cyan-luminous-rgb);
 
   --radius: 0.625rem;
 }
