@@ -85,16 +85,9 @@ export function ContentsPane() {
     >
       <ol className="flex flex-col gap-[7px] list-none m-0 p-0 mb-3.5">
         <li className="flex gap-2.5 items-baseline m-0">
-          <span
-            className={`font-mono text-[10px] slashed-zero tabular-nums w-4 shrink-0 transition-colors ${
-              active === INTRO.id
-                ? "text-[rgb(120,180,255)]"
-                : "text-[rgba(120,180,255,0.4)]"
-            }`}
-            aria-hidden
-          >
-            &mdash;
-          </span>
+          {/* Empty where the others carry a numeral — the intro isn't one of
+              the twenty, but its label still lines up with them. */}
+          <span className="w-4 shrink-0" aria-hidden />
           <a
             ref={(el) => {
               if (el) itemRefs.current.set(INTRO.id, el);

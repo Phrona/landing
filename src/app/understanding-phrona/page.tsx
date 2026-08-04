@@ -711,7 +711,7 @@ export default function UnderstandingPhrona() {
                   href="/download/understanding-phrona"
                   className="underline decoration-border underline-offset-4 hover:decoration-foreground hover:text-foreground transition-colors"
                 >
-                  Download this as a PDF
+                  Download PDF
                 </a>
                 <span className="mx-3 text-[rgba(255,255,255,0.25)]">·</span>
                 <a
