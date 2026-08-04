@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { SmallCaps } from "@/components/small-caps";
 import { ContentsPane } from "@/components/contents-pane";
 import {
   CONTENTS,
@@ -380,8 +381,8 @@ export default function UnderstandingPhrona() {
                         <span className="font-mono text-sm slashed-zero tabular-nums text-[rgb(120,180,255)] font-medium">
                           {m.n}
                         </span>
-                        <h3 className="font-heading text-lg sm:text-xl font-semibold text-foreground uppercase tracking-[0.12em]">
-                          {m.title}
+                        <h3 className="font-heading text-lg sm:text-xl font-semibold text-foreground tracking-[0.12em]">
+                          <SmallCaps>{m.title}</SmallCaps>
                         </h3>
                       </div>
                       <p className="pl-10 leading-relaxed">{m.body}</p>

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { SmallCaps } from "@/components/small-caps";
 import { InquireForm } from "@/components/inquire-form";
 
 const PAIN_POINTS = [
@@ -81,7 +82,7 @@ export default function Home() {
         </div>
 
         <h1 className="font-heading text-2xl sm:text-3xl md:text-4xl font-normal max-w-5xl mb-24 leading-[1.3]">
-          Your strategy. Made coherent. Brought to life.
+          Infrastructure for strategy. Coherence for a changing world.
         </h1>
 
         <CallToAction />
@@ -96,7 +97,7 @@ export default function Home() {
               Strategy is complex. It&apos;s easy to get lost.
             </p>
             <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl font-medium leading-[1.15]">
-              Does any of this feel familiar?
+              Every consequential decision shares the same problem.
             </h2>
           </div>
 
@@ -119,11 +120,14 @@ export default function Home() {
 
           {/* Unifier → 3-beat (stacked) → Resolution → CTA */}
           <div className="max-w-3xl mx-auto mt-32 text-center">
-            <p className="text-xl sm:text-2xl leading-relaxed mb-12">
-              These breakdowns share a root cause:{" "}
-              <span className="text-foreground font-medium">
-                strategy without infrastructure.
-              </span>
+            <p className="text-xl sm:text-2xl leading-relaxed mb-10">
+              Organizations don&rsquo;t fail because they stop executing. They
+              fail because they continue executing strategies that no longer fit
+              the world around them.
+            </p>
+
+            <p className="font-heading text-2xl sm:text-3xl font-medium text-foreground leading-[1.2] mb-16">
+              That&rsquo;s <SmallCaps>Dead Reckoning</SmallCaps>.
             </p>
 
             <div className="text-lg sm:text-xl text-muted-foreground space-y-2 mb-16 sm:mb-20">
