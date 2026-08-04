@@ -702,7 +702,7 @@ export default function UnderstandingPhrona() {
               </p>
               <Link
                 href="/#inquire"
-                className="inline-flex items-center justify-center px-10 py-5 bg-hero text-hero-foreground rounded-full text-lg font-bold hover:shadow-[0_0_28px_rgba(120,180,255,0.65),0_0_64px_rgba(120,180,255,0.40)]"
+                className="inline-flex items-center justify-center px-8 py-4 bg-hero text-hero-foreground rounded-full text-lg font-bold hover:shadow-[0_0_28px_rgba(120,180,255,0.65),0_0_64px_rgba(120,180,255,0.40)]"
               >
                 Join our founding cohort
               </Link>
