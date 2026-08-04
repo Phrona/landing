@@ -137,7 +137,7 @@ export default function Home() {
               operating without infrastructure.
             </p>
 
-            <div className="text-lg sm:text-xl text-muted-foreground space-y-2 mb-16 sm:mb-20">
+            <div className="flex flex-col gap-4 text-lg sm:text-xl text-muted-foreground mb-16 sm:mb-20">
               <p>Sales has Salesforce.</p>
               <p>Finance has NetSuite.</p>
               <p>HR has Workday.</p>
