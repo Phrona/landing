@@ -154,7 +154,7 @@ export default function UnderstandingPhrona() {
 
           <div className="min-w-0 max-w-3xl">
             {/* Opening */}
-            <header className="mb-20">
+            <header id="intro" className="mb-20 scroll-mt-24">
               <h1 className="font-heading text-4xl sm:text-5xl md:text-6xl font-medium leading-[1.1] mb-10">
                 Understanding Phrona
               </h1>

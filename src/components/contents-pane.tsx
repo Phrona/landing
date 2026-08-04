@@ -20,13 +20,16 @@ import { CONTENTS, CONTENT_GROUPS, slugify } from "@/lib/understanding-contents"
 /** Where a heading counts as "current" — below the sticky header, not at the very top. */
 const ACTIVE_LINE_PX = 140;
 
+/** The opening, before the questions start. Anchored in the page itself. */
+const INTRO = { id: "intro", label: "Intro" };
+
 export function ContentsPane() {
   const [active, setActive] = useState<string | null>(null);
   const paneRef = useRef<HTMLElement | null>(null);
   const itemRefs = useRef(new Map<string, HTMLAnchorElement>());
 
   useEffect(() => {
-    const ids = CONTENTS.map(slugify);
+    const ids = [INTRO.id, ...CONTENTS.map(slugify)];
     let frame = 0;
 
     const update = () => {
@@ -80,6 +83,36 @@ export function ContentsPane() {
       aria-label="Contents"
       className="hidden lg:block sticky top-20 self-start max-h-[calc(100vh-6.5rem)] overflow-y-auto pr-3"
     >
+      <ol className="flex flex-col gap-[7px] list-none m-0 p-0 mb-3.5">
+        <li className="flex gap-2.5 items-baseline m-0">
+          <span
+            className={`font-mono text-[10px] slashed-zero tabular-nums w-4 shrink-0 transition-colors ${
+              active === INTRO.id
+                ? "text-[rgb(120,180,255)]"
+                : "text-[rgba(120,180,255,0.4)]"
+            }`}
+            aria-hidden
+          >
+            &mdash;
+          </span>
+          <a
+            ref={(el) => {
+              if (el) itemRefs.current.set(INTRO.id, el);
+              else itemRefs.current.delete(INTRO.id);
+            }}
+            href={`#${INTRO.id}`}
+            aria-current={active === INTRO.id ? "location" : undefined}
+            className={`block text-[13px] font-semibold leading-snug transition-colors ${
+              active === INTRO.id
+                ? "text-white"
+                : "text-[rgba(255,255,255,0.42)] hover:text-[rgba(255,255,255,0.75)]"
+            }`}
+          >
+            {INTRO.label}
+          </a>
+        </li>
+      </ol>
+
       {CONTENT_GROUPS.map((group, gi) => {
         // Numbering runs 01–20 across the whole document, not per group.
         const offset = CONTENT_GROUPS.slice(0, gi).reduce(
