@@ -26,7 +26,7 @@ const MOVES = [
     n: "01",
     title: "Capture",
     body:
-      "Phrona maps your convictions, the goals they support, the initiatives they enable, and the relationships among them — creating a living model of your strategy.",
+      "Phrona maps your convictions, the goals they support, the initiatives they enable, and the relationships among them, creating a living model of your strategy. This model becomes the foundation for everything Phrona does, from continuous validation to competitor analysis and strategic simulation.",
   },
   {
     n: "02",
@@ -38,7 +38,7 @@ const MOVES = [
     n: "03",
     title: "Challenge",
     body:
-      "As new evidence emerges, Phrona challenges the convictions underneath your strategy. It identifies contradictions, surfaces weak assumptions, exposes blind spots, and highlights where your thinking no longer reflects reality.",
+      "As new evidence emerges, Phrona challenges your convictions to identify contradictions, surface weak assumptions, expose blind spots, and highlight where your views no longer reflect reality.",
   },
   {
     n: "04",
@@ -204,9 +204,9 @@ export default function UnderstandingPhrona() {
 
               <RuleList
                 items={[
-                  "an energy company builds toward fifteen million tonnes of green hydrogen a year, on the conviction that renewable power will get cheap enough, fast enough, to make it work;",
-                  "a newly appointed retail CEO eliminates coupons and promotions, convinced customers prefer simple, transparent pricing;",
-                  "a smartphone company keeps building for the physical keyboard, convinced serious users will never accept typing on glass — and that consumer enthusiasm won’t change what enterprises buy.",
+                  "an energy company builds toward production of fifteen million tons of green hydrogen per year, on the conviction that renewable power will get cheap enough, fast enough, to make it work;",
+                  "a newly appointed retail CEO eliminates coupons and promotions because he believes customers prefer simple, transparent pricing;",
+                  "a smartphone company keeps building for the keyboard, convinced serious users will never accept typing on glass — and that consumer enthusiasm won’t change what enterprises buy.",
                 ]}
               />
 
@@ -238,13 +238,14 @@ export default function UnderstandingPhrona() {
               </p>
 
               <p className="text-foreground font-medium">
-                Strategy infrastructure keeps convictions grounded in reality.
+                Strategy infrastructure maintains the coherence between what
+                you do and the changing world around you.
               </p>
 
               <p>
                 It tracks the convictions your strategy depends on and
-                continuously monitors the world around you for evidence that
-                could change them. It alerts you when reality begins to diverge
+                continuously monitors your competitive environment for evidence
+                that could change them. It alerts you when reality begins to diverge
                 from what you believe to be true. By doing so, Phrona helps
                 detect strategic drift before it becomes a strategic failure.
               </p>
@@ -399,8 +400,8 @@ export default function UnderstandingPhrona() {
               </p>
               <p>
                 Phrona does. It doesn’t replace planning or execution. It
-                ensures the strategy guiding both remains grounded in reality as
-                the world changes.
+                ensures the strategy guiding both remains coherent as the world
+                changes.
               </p>
             </Q>
 
@@ -457,7 +458,8 @@ export default function UnderstandingPhrona() {
                 You gain confidence in execution, because the strategy behind it
                 doesn’t quietly grow stale. Convictions become explicit rather
                 than implicit. Strategic discussions become evidence-driven
-                rather than memory-driven.
+                rather than memory-driven. Your strategy remains coherent as
+                both your company and the world around it evolve.
               </p>
               <p className="text-foreground">
                 The result isn’t better strategy in theory — it’s fewer
@@ -479,8 +481,8 @@ export default function UnderstandingPhrona() {
               </ul>
               <p>
                 Strategy infrastructure doesn’t eliminate uncertainty — it
-                eliminates dead reckoning. Your strategy evolves as the world
-                changes.
+                eliminates dead reckoning. It preserves the coherence between
+                your strategy and the changing world it operates in.
               </p>
             </Q>
 
@@ -568,17 +570,12 @@ export default function UnderstandingPhrona() {
                 it that way.
               </p>
               <p>
-                Your graph is isolated to your own tenant — enforced in code and
-                verified by a test suite that attempts cross-tenant reads and
-                must come back empty. Phrona calls language models as stateless
-                functions, sending only the slice of context a task requires, so
-                your accumulated strategic state never sits at rest on a model
-                provider’s infrastructure. Your content is never used to train
-                models, and it is deleted on request.
+                Customer data is isolated, access is tightly controlled, and
+                strategy is never shared. Your information is used only to
+                support your company’s strategic analysis.
               </p>
-              <p>
-                Your information is used only to support your company’s
-                strategic analysis. Full detail is in our{" "}
+              <p className="text-base">
+                Full detail is in our{" "}
                 <Link
                   href="/privacy"
                   className="text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground"
@@ -592,7 +589,7 @@ export default function UnderstandingPhrona() {
 
             <Q title="What is the Founding Cohort?">
               <p className="text-foreground font-medium">
-                We’re hand-picking ten companies to help define what strategy
+                We’re inviting ten companies to help define what strategy
                 infrastructure becomes.
               </p>
               <p>
