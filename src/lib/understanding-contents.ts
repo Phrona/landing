@@ -73,7 +73,6 @@ export const CONTENT_GROUPS = [
         title: "What changes when a company has infrastructure for strategy?",
         nav: "What changes",
       },
-      { title: "What this means in practice" },
       {
         title: "Is Phrona just another system to maintain?",
         nav: "Another system to maintain?",

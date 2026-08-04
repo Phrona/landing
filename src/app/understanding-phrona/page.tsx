@@ -243,9 +243,9 @@ export default function UnderstandingPhrona() {
 
             <Contents />
 
-          {/* The document's one cyan rule: intro ends, questions begin. Equal
+            {/* The document's one cyan rule: intro ends, questions begin. Equal
               space above and below so it reads as a divider, not an underline. */}
-          <div className="h-px w-full bg-[rgba(120,180,255,0.4)] my-20" />
+            <div className="h-px w-full bg-[rgba(120,180,255,0.4)] my-20" />
 
             {/* ——— The document proper ——— */}
             <div>
@@ -534,15 +534,13 @@ export default function UnderstandingPhrona() {
                   The result isn’t better strategy in theory — it’s fewer
                   expensive mistakes in practice.
                 </p>
-              </Q>
 
-              <Q title="What this means in practice">
-                <p>You:</p>
+                <p>What this means in practice — you:</p>
                 <ul className="my-8 space-y-4 list-none">
                   {IN_PRACTICE.map((item) => (
                     <li
                       key={item}
-                      className="border-l-2 border-[rgba(120,180,255,0.45)] pl-6 leading-relaxed"
+                      className="border-l-2 border-[rgba(120,180,255,0.45)] pl-6 italic leading-relaxed"
                     >
                       {item}
                     </li>

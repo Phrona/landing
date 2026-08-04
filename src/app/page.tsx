@@ -75,10 +75,15 @@ export default function Home() {
           />
         </div>
 
-        <h1 className="flex flex-col gap-6 sm:gap-8 font-heading text-2xl sm:text-3xl md:text-4xl font-normal max-w-5xl mb-24 leading-[1.3]">
-          <span className="block">Infrastructure for strategy.</span>
-          <span className="block">Coherence for a changing world.</span>
+        <h1 className="font-heading text-2xl sm:text-3xl md:text-4xl font-normal max-w-5xl mb-8 leading-[1.3]">
+          Infrastructure for strategy.
         </h1>
+
+        <p className="font-heading text-xl sm:text-2xl font-normal text-muted-foreground leading-[1.6] max-w-3xl mb-24">
+          Phrona continuously preserves the coherence of your strategy by
+          ensuring the convictions it depends on keep pace with the world around
+          it.
+        </p>
 
         <CallToAction />
       </section>
