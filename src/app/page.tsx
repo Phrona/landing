@@ -88,12 +88,9 @@ export default function Home() {
         <div className="max-w-6xl mx-auto pt-24 sm:pt-32 border-t border-border">
           {/* Heading → the turn → the grid it sets up */}
           <div className="text-center mb-20 max-w-3xl mx-auto">
-            <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl font-medium leading-[1.15] mb-8">
-              Every consequential decision shares the same problem.
-            </h2>
-            <p className="font-heading text-xl sm:text-2xl text-muted-foreground leading-[1.25] mb-16">
+            <h2 className="font-heading text-xl sm:text-2xl font-normal text-muted-foreground leading-[1.25] mb-16">
               Where intelligent companies get into trouble.
-            </p>
+            </h2>
 
             <p className="text-xl sm:text-2xl leading-relaxed mb-10">
               Organizations don&rsquo;t fail because they stop executing. They
