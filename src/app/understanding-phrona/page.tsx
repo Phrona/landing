@@ -56,6 +56,15 @@ const IN_PRACTICE = [
   "change direction while it’s still inexpensive.",
 ];
 
+/** Anchor id for a question — must match the ids the contents block links to. */
+function slugify(title: string): string {
+  return title
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, "")
+    .trim()
+    .replace(/\s+/g, "-");
+}
+
 /** A question block — heading, cyan rule, body. The page's repeating unit. */
 function Q({
   title,
@@ -65,7 +74,7 @@ function Q({
   children: React.ReactNode;
 }) {
   return (
-    <section className="mt-20 first:mt-0">
+    <section id={slugify(title)} className="mt-20 first:mt-0 scroll-mt-24">
       <h2 className="font-heading text-2xl sm:text-3xl font-medium leading-[1.2] mb-4">
         {title}
       </h2>
@@ -74,6 +83,64 @@ function Q({
         {children}
       </div>
     </section>
+  );
+}
+
+/**
+ * Every question on the page, in order. Drives the contents block; the
+ * anchors come from the same slugify() the sections use, so a retitled
+ * question can't leave a dead link behind.
+ */
+const CONTENTS = [
+  "What is Phrona?",
+  "What is \u201Cinfrastructure for strategy\u201D?",
+  "Why doesn\u2019t infrastructure for strategy already exist?",
+  "Will every company eventually need strategy infrastructure?",
+  "How does Phrona work?",
+  "Does Phrona make strategic decisions?",
+  "Can\u2019t Claude (or ChatGPT or Gemini) do the same thing?",
+  "Isn\u2019t this just a knowledge graph? Or GraphRAG?",
+  "So it\u2019s just competitive intelligence, then?",
+  "Isn\u2019t this just strategy software? Or another OKR platform?",
+  "Why not just hire a consultant?",
+  "Doesn\u2019t my team already own this?",
+  "What changes when a company has infrastructure for strategy?",
+  "What this means in practice",
+  "Is Phrona just another system to maintain?",
+  "What does Phrona deliver?",
+  "Who is Phrona for?",
+  "How is our strategy kept private?",
+  "What is the Founding Cohort?",
+  "How do we get started?",
+];
+
+/** Jump links. The page reads top-to-bottom; this is for the reader who
+    arrived carrying one specific question. */
+function Contents() {
+  return (
+    <nav
+      aria-label="Contents"
+      className="my-16 px-6 py-7 sm:px-8 rounded-xl border border-border bg-[rgba(255,255,255,0.015)]"
+    >
+      <p className="font-heading text-sm uppercase tracking-[0.16em] text-muted-foreground mb-6">
+        Contents
+      </p>
+      <ol className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-3 list-none m-0 p-0">
+        {CONTENTS.map((title, i) => (
+          <li key={title} className="flex gap-4 items-baseline m-0">
+            <span className="font-mono text-xs slashed-zero tabular-nums text-[rgb(120,180,255)] font-medium w-6 shrink-0">
+              {String(i + 1).padStart(2, "0")}
+            </span>
+            <a
+              href={`#${slugify(title)}`}
+              className="text-base text-muted-foreground hover:text-foreground transition-colors leading-relaxed"
+            >
+              {title}
+            </a>
+          </li>
+        ))}
+      </ol>
+    </nav>
   );
 }
 
@@ -191,6 +258,8 @@ export default function UnderstandingPhrona() {
             </p>
           </div>
 
+          <Contents />
+
           {/* ——— The document proper ——— */}
           <div className="mt-24 pt-20 border-t border-border">
             <Q title="What is Phrona?">
@@ -238,8 +307,8 @@ export default function UnderstandingPhrona() {
               </p>
 
               <p className="text-foreground font-medium">
-                Strategy infrastructure maintains the coherence between what
-                you do and the changing world around you.
+                Strategy infrastructure maintains coherence between your
+                strategic decisions and the changing world around you.
               </p>
 
               <p>
@@ -481,8 +550,8 @@ export default function UnderstandingPhrona() {
               </ul>
               <p>
                 Strategy infrastructure doesn’t eliminate uncertainty — it
-                eliminates dead reckoning. It preserves the coherence between
-                your strategy and the changing world it operates in.
+                eliminates dead reckoning. It preserves the coherence of your
+                strategy as the world changes.
               </p>
             </Q>
 
@@ -638,7 +707,7 @@ export default function UnderstandingPhrona() {
             </Link>
             <p className="mt-12 text-sm text-muted-foreground">
               <a
-                href="/understanding-phrona.pdf"
+                href="/download/understanding-phrona"
                 className="underline decoration-border underline-offset-4 hover:decoration-foreground hover:text-foreground transition-colors"
               >
                 Download this as a PDF
