@@ -55,21 +55,20 @@ const IN_PRACTICE = [
 ];
 
 /**
- * A question block. A cyan rule opens the question; a faint three-quarter
- * rule closes the answer — so each Q&A reads as one bracketed unit rather
- * than a heading with an underline.
+ * A question block. The answer closes with a faint three-quarter rule,
+ * centred — the only rule that repeats. The single cyan rule belongs to the
+ * document, marking where the intro ends and the questions begin.
  */
 function Q({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section id={slugify(title)} className="mt-24 first:mt-0 scroll-mt-24">
-      <div className="h-px w-full bg-[rgba(120,180,255,0.4)] mb-10" />
       <h2 className="font-heading text-2xl sm:text-3xl font-medium leading-[1.2] mb-8">
         {title}
       </h2>
       <div className="space-y-6 text-lg text-muted-foreground leading-relaxed">
         {children}
       </div>
-      <div className="h-px w-3/4 bg-border mt-12" />
+      <div className="h-px w-3/4 mx-auto bg-border mt-12" />
     </section>
   );
 }
@@ -138,7 +137,7 @@ export default function UnderstandingPhrona() {
   return (
     <main className="flex flex-1 flex-col">
       <article className="px-6 pb-24 sm:pb-32">
-        <div className="max-w-[67rem] mx-auto pt-16 sm:pt-24 lg:grid lg:grid-cols-[15rem_minmax(0,48rem)] lg:gap-16">
+        <div className="max-w-[69rem] mx-auto pt-16 sm:pt-24 lg:grid lg:grid-cols-[17rem_minmax(0,48rem)] lg:gap-16">
           <ContentsPane />
 
           <div className="min-w-0 max-w-3xl">
@@ -231,8 +230,12 @@ export default function UnderstandingPhrona() {
 
             <Contents />
 
+          {/* The document's one cyan rule: intro ends, questions begin. Equal
+              space above and below so it reads as a divider, not an underline. */}
+          <div className="h-px w-full bg-[rgba(120,180,255,0.4)] my-20" />
+
             {/* ——— The document proper ——— */}
-            <div className="mt-24 pt-20">
+            <div>
               <Q title="What is Phrona?">
                 <p className="text-foreground text-xl font-medium">
                   Phrona is infrastructure for strategy.

@@ -80,38 +80,54 @@ export function ContentsPane() {
       aria-label="Contents"
       className="hidden lg:block sticky top-24 self-start max-h-[calc(100vh-8rem)] overflow-y-auto pr-3"
     >
-      {CONTENT_GROUPS.map((group, gi) => (
-        <div key={group.label} className={gi === 0 ? "" : "mt-11"}>
-          <p className="font-heading text-[11px] uppercase tracking-[0.18em] text-[rgba(255,255,255,0.32)] mb-4">
-            {group.label}
-          </p>
-          <ol className="flex flex-col gap-6 list-none m-0 p-0">
-            {group.questions.map((title) => {
-              const id = slugify(title);
-              const isActive = active === id;
-              return (
-                <li key={title} className="m-0">
-                  <a
-                    ref={(el) => {
-                      if (el) itemRefs.current.set(id, el);
-                      else itemRefs.current.delete(id);
-                    }}
-                    href={`#${id}`}
-                    aria-current={isActive ? "location" : undefined}
-                    className={`block text-sm leading-snug transition-colors ${
-                      isActive
-                        ? "text-white"
-                        : "text-[rgba(255,255,255,0.42)] hover:text-[rgba(255,255,255,0.75)]"
-                    }`}
-                  >
-                    {title}
-                  </a>
-                </li>
-              );
-            })}
-          </ol>
-        </div>
-      ))}
+      {CONTENT_GROUPS.map((group, gi) => {
+        // Numbering runs 01–20 across the whole document, not per group.
+        const offset = CONTENT_GROUPS.slice(0, gi).reduce(
+          (sum, g) => sum + g.questions.length,
+          0,
+        );
+        return (
+          <div key={group.label} className={gi === 0 ? "" : "mt-7"}>
+            <p className="font-heading text-[10px] uppercase tracking-[0.18em] text-[rgba(255,255,255,0.32)] mb-3">
+              {group.label}
+            </p>
+            <ol className="flex flex-col gap-3.5 list-none m-0 p-0">
+              {group.questions.map((title, i) => {
+                const id = slugify(title);
+                const isActive = active === id;
+                return (
+                  <li key={title} className="flex gap-2.5 items-baseline m-0">
+                    <span
+                      className={`font-mono text-[10px] slashed-zero tabular-nums w-4 shrink-0 transition-colors ${
+                        isActive
+                          ? "text-[rgb(120,180,255)]"
+                          : "text-[rgba(120,180,255,0.4)]"
+                      }`}
+                    >
+                      {String(offset + i + 1).padStart(2, "0")}
+                    </span>
+                    <a
+                      ref={(el) => {
+                        if (el) itemRefs.current.set(id, el);
+                        else itemRefs.current.delete(id);
+                      }}
+                      href={`#${id}`}
+                      aria-current={isActive ? "location" : undefined}
+                      className={`block text-[13px] font-semibold leading-snug transition-colors ${
+                        isActive
+                          ? "text-white"
+                          : "text-[rgba(255,255,255,0.42)] hover:text-[rgba(255,255,255,0.75)]"
+                      }`}
+                    >
+                      {title}
+                    </a>
+                  </li>
+                );
+              })}
+            </ol>
+          </div>
+        );
+      })}
     </aside>
   );
 }
