@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ContentsPane } from "@/components/contents-pane";
-import { CONTENT_GROUPS, slugify } from "@/lib/understanding-contents";
+import {
+  CONTENTS,
+  CONTENT_GROUPS,
+  slugify,
+} from "@/lib/understanding-contents";
 
 export const metadata: Metadata = {
   title: "Understanding Phrona",
@@ -60,10 +64,18 @@ const IN_PRACTICE = [
  * document, marking where the intro ends and the questions begin.
  */
 function Q({ title, children }: { title: string; children: React.ReactNode }) {
+  // Numbering comes from document order, so the heading and the rail can
+  // never disagree about which question this is.
+  const number = (CONTENTS as readonly string[]).indexOf(title) + 1;
   return (
     <section id={slugify(title)} className="mt-24 first:mt-0 scroll-mt-24">
-      <h2 className="font-heading text-2xl sm:text-3xl font-medium leading-[1.2] mb-8">
-        {title}
+      <h2 className="font-heading text-2xl sm:text-3xl font-medium leading-[1.2] mb-8 flex gap-4 sm:gap-5 items-baseline">
+        {number > 0 && (
+          <span className="font-mono text-base sm:text-lg slashed-zero tabular-nums text-[rgb(120,180,255)] font-medium shrink-0">
+            {String(number).padStart(2, "0")}
+          </span>
+        )}
+        <span>{title}</span>
       </h2>
       <div className="space-y-6 text-lg text-muted-foreground leading-relaxed">
         {children}
