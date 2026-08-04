@@ -146,16 +146,11 @@ export default function Home() {
               Strategy has nothing.
             </p>
 
-            <p className="font-heading text-2xl sm:text-3xl font-medium text-foreground leading-[1.2] mb-4">
+            <p className="font-heading text-2xl sm:text-3xl font-medium text-foreground leading-[1.2] mb-12">
               Until Phrona.
             </p>
             <p className="font-heading text-2xl sm:text-3xl font-medium text-foreground leading-[1.2] mb-20">
               Infrastructure for strategy.
-            </p>
-
-            <p className="text-xl sm:text-2xl font-heading font-normal leading-[1.3] mb-16">
-              Phrona is the missing link &mdash; it brings your strategy to life
-              and keeps it current while the world changes around you.
             </p>
 
             <CallToAction />
