@@ -7,12 +7,12 @@ const DECISIONS = [
   {
     n: "01",
     title: "Entering a new market",
-    body: "You\u2019re betting millions on assumptions about customers, competitors, regulation, and timing. If those assumptions change, your strategy should too.",
+    body: "You’re betting millions on assumptions about customers, competitors, regulation, and timing. If those assumptions change, your strategy should too.",
   },
   {
     n: "02",
     title: "Launching a new product",
-    body: "Product decisions compound quickly. The longer they\u2019re based on outdated assumptions about customer requirements, the more expensive they become to change.",
+    body: "Product decisions compound quickly. The longer they’re built on outdated customer assumptions, the more expensive they become to change.",
   },
   {
     n: "03",
@@ -22,17 +22,17 @@ const DECISIONS = [
   {
     n: "04",
     title: "Scaling the organization",
-    body: "Hiring amplifies strategy. Building the wrong organization around stale assumptions locks yesterday\u2019s thinking into tomorrow\u2019s execution.",
+    body: "Hiring amplifies strategy. Building the wrong organization around stale assumptions locks yesterday’s thinking into tomorrow’s execution.",
   },
   {
     n: "05",
     title: "Responding to disruption",
-    body: "The hardest part isn\u2019t seeing competitors move \u2014 it\u2019s knowing whether their move should change yours.",
+    body: "The hardest part isn’t seeing competitors move — it’s knowing whether their move should change yours.",
   },
   {
     n: "06",
     title: "Making long-term technology bets",
-    body: "The longer the investment horizon, the more opportunities the world has to invalidate the convictions your strategy depends on.",
+    body: "Every long-term technology bet depends on convictions about where technology is headed. The hard part is knowing when those convictions should change.",
   },
 ];
 
@@ -144,10 +144,16 @@ export default function Home() {
             </p>
 
             <p className="font-heading text-2xl sm:text-3xl font-medium text-foreground leading-[1.2] mb-12">
-              Until Phrona.
+              Until Phrona
             </p>
-            <p className="font-heading text-2xl sm:text-3xl font-medium text-foreground leading-[1.2] mb-20">
+            <p className="font-heading text-2xl sm:text-3xl font-medium text-foreground leading-[1.2] mb-16">
               Infrastructure for strategy.
+            </p>
+
+            <p className="font-heading text-xl sm:text-2xl font-normal text-muted-foreground leading-[1.6] mb-16">
+              Phrona continuously monitors the convictions your strategy depends
+              on, preserving its coherence as your company and the world around
+              it evolve.
             </p>
 
             <CallToAction />
@@ -164,8 +170,8 @@ export default function Home() {
                 Phrona is launching in beta.
               </h2>
               <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed">
-                We&apos;re hand-picking 10 companies to join our founding
-                cohort.
+                We&rsquo;re partnering with ten companies to define what
+                infrastructure for strategy becomes.
               </p>
             </div>
             <InquireForm />
