@@ -75,7 +75,7 @@ export default function Home() {
           />
         </div>
 
-        <h1 className="flex flex-col gap-3 sm:gap-4 font-heading text-2xl sm:text-3xl md:text-4xl font-normal max-w-5xl mb-24 leading-[1.3]">
+        <h1 className="flex flex-col gap-6 sm:gap-8 font-heading text-2xl sm:text-3xl md:text-4xl font-normal max-w-5xl mb-24 leading-[1.3]">
           <span className="block">Infrastructure for strategy.</span>
           <span className="block">Coherence for a changing world.</span>
         </h1>
