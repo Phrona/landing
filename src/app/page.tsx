@@ -93,23 +93,19 @@ export default function Home() {
         <div className="max-w-6xl mx-auto pt-24 sm:pt-32 border-t border-border">
           {/* Heading → the turn → the grid it sets up */}
           <div className="text-center mb-20 max-w-3xl mx-auto">
-            <h2 className="font-heading text-2xl sm:text-3xl md:text-4xl font-medium leading-[1.2] mb-16">
-              Where intelligent companies get into trouble.
-            </h2>
-
             <p className="font-heading text-xl sm:text-2xl font-normal text-muted-foreground leading-[1.6] mb-10">
               Organizations don&rsquo;t fail because they stop executing. They
               fail because they continue executing strategies that no longer fit
               the world around them.
             </p>
 
-            <p className="font-heading text-2xl sm:text-3xl font-normal text-foreground leading-[1.2]">
+            <h2 className="font-heading text-2xl sm:text-3xl font-normal text-foreground leading-[1.2]">
               That&rsquo;s{" "}
               <span className="font-semibold">
                 <SmallCaps>Dead Reckoning</SmallCaps>
               </span>
               .
-            </p>
+            </h2>
           </div>
 
           {/* Pain points grid */}
