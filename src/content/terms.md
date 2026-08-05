@@ -61,8 +61,6 @@ Questions about these Terms? Contact us at:
 
 > **Phrona, Inc.**
 >
-> 6209 Hewetson Dr, Austin, TX 78738
->
 > **Email:** [hello@phrona.io](mailto:hello@phrona.io)
 >
 > **Website:** [https://phrona.io](https://phrona.io)

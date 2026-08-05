@@ -19,8 +19,6 @@ Phrona is designed for companies handling sensitive strategic information. Our a
 
 > **Phrona, Inc.**
 >
-> 6209 Hewetson Dr, Austin, TX 78738
->
 > **Email:** [hello@phrona.io](mailto:hello@phrona.io)
 >
 > **Website:** [https://phrona.io](https://phrona.io)
@@ -186,8 +184,6 @@ We may update this Privacy Policy periodically to reflect changes to the Service
 For privacy inquiries, rights requests, or to report a data security concern, contact us at:
 
 > **Phrona, Inc.**
->
-> 6209 Hewetson Dr, Austin, TX 78738
 >
 > **Email:** [hello@phrona.io](mailto:hello@phrona.io)
 >
