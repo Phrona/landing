@@ -93,19 +93,19 @@ export default function Home() {
         <div className="max-w-6xl mx-auto pt-24 sm:pt-32 border-t border-border">
           {/* Heading → the turn → the grid it sets up */}
           <div className="text-center mb-20 max-w-3xl mx-auto">
-            <p className="font-heading text-xl sm:text-2xl font-normal text-muted-foreground leading-[1.6] mb-8">
+            <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed mb-8">
               Whether you&rsquo;re committing significant capital, entering new
               markets, launching major products, or scaling rapidly, every
               consequential decision depends on assumptions about how the world
               works.
             </p>
 
-            <p className="font-heading text-xl sm:text-2xl font-normal text-muted-foreground leading-[1.6] mb-10">
+            <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed mb-10">
               Many companies get these decisions wrong because they continue
               executing a stale strategy as the world changes underneath them.
             </p>
 
-            <h2 className="font-heading text-2xl sm:text-3xl font-normal text-foreground leading-[1.2]">
+            <h2 className="text-xl sm:text-2xl font-normal text-foreground leading-relaxed">
               That&rsquo;s{" "}
               <span className="font-semibold">
                 <SmallCaps>Dead Reckoning</SmallCaps>
