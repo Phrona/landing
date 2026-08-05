@@ -3,6 +3,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { Montserrat, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/header";
+import { ScrollReset } from "@/components/scroll-reset";
 import { Footer } from "@/components/footer";
 
 const montserrat = Montserrat({
@@ -50,6 +51,7 @@ export default function RootLayout({
       className={`${montserrat.variable} ${geistMono.variable} h-full antialiased motion-safe:scroll-smooth`}
     >
       <body className="min-h-full flex flex-col font-sans">
+        <ScrollReset />
         <Header />
         {children}
         <Footer />
