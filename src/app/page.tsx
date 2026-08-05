@@ -76,13 +76,13 @@ export default function Home() {
         </div>
 
         <h1 className="font-heading text-2xl sm:text-3xl md:text-4xl font-normal max-w-5xl mb-8 leading-[1.3]">
-          Infrastructure for strategy.
+          Phrona is infrastructure for strategy.
         </h1>
 
         <p className="font-heading text-xl sm:text-2xl font-normal text-muted-foreground leading-[1.6] max-w-3xl mb-24">
-          Phrona continuously preserves the coherence of your strategy by
-          ensuring the convictions it depends on keep pace with the world around
-          it.
+          Phrona continuously monitors the convictions your strategy depends
+          on, preserving its coherence as your company and the world around it
+          evolve.
         </p>
 
         <CallToAction />
@@ -147,14 +147,8 @@ export default function Home() {
             <p className="font-heading text-2xl sm:text-3xl font-medium text-foreground leading-[1.2] mb-12">
               Until Phrona
             </p>
-            <p className="font-heading text-2xl sm:text-3xl font-medium text-foreground leading-[1.2] mb-16">
+            <p className="font-heading text-2xl sm:text-3xl font-medium text-foreground leading-[1.2] mb-20">
               Infrastructure for strategy.
-            </p>
-
-            <p className="font-heading text-xl sm:text-2xl font-normal text-muted-foreground leading-[1.6] mb-16">
-              Phrona continuously monitors the convictions your strategy depends
-              on, preserving its coherence as your company and the world around
-              it evolve.
             </p>
 
             <CallToAction />
