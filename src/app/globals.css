@@ -167,16 +167,28 @@
 /* Autofilled fields — Chrome hardcodes its own background and ignores the rule
    above, so the same look is reconstructed with the box-shadow inset trick, which
    is the only reliable substitute. Colors match exactly, so an autofilled field
-   and a typed one are indistinguishable. */
+   and a typed one are indistinguishable.
+
+   NO `transition: background-color 5000s` HERE, and its absence is the fix for a
+   real bug rather than a tidy-up. That declaration is the standard trick for
+   suppressing Chrome's yellow flash: park the transition so far in the future
+   that the browser's own color never arrives. It also parks the transition OUT of
+   the autofill state. Backspace one character in an autofilled field, Chrome drops
+   `:-webkit-autofill`, the box-shadow goes with it — and the background-color
+   change to the rule above is then animated over five thousand seconds, so the
+   field sits on navy and stays there. Deleting the whole value and retyping looked
+   fine because that path never entered the autofill state at all.
+
+   Nothing needs suppressing now. The rule above already paints the field the same
+   color from the first character, so there is no yellow underneath to hide, and
+   leaving the state transitions normally. */
 form input:-webkit-autofill,
 form input:-webkit-autofill:hover,
 form input:-webkit-autofill:focus,
 form textarea:-webkit-autofill,
-form textarea:-webkit-autofill:hover,
 form textarea:-webkit-autofill:focus {
   -webkit-text-fill-color: #0a0e1a;
   -webkit-box-shadow: 0 0 0 1000px #e8f0fe inset !important;
   caret-color: #0a0e1a;
   border-color: transparent !important;
-  transition: background-color 5000s ease-in-out 0s;
 }
