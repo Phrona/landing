@@ -3,8 +3,15 @@
 import { useState, useTransition } from "react";
 import { submitInquiry } from "@/app/actions/inquire";
 
+// The filled-state styling is keyed on HAS-CONTENT, not on validity.
+// `valid:` was the obvious choice and it flickers: a half-typed email is
+// `:invalid`, so the field snapped back to navy mid-word and only settled once
+// the address parsed. `:not(:placeholder-shown)` is true from the first
+// character regardless of what the value means, which is what the eye expects.
+// Applied from globals.css so one rule covers inputs and the textarea; every
+// field carries `placeholder=" "` so the selector has something to test against.
 const fieldClass =
-  "w-full bg-transparent border border-border rounded-md px-4 py-3 text-base text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:border-foreground transition-colors valid:bg-[#e8f0fe] valid:text-[#0a0e1a] valid:border-transparent valid:placeholder:text-[#0a0e1a]/40";
+  "field-fill w-full bg-transparent border border-border rounded-md px-4 py-3 text-base text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:border-foreground transition-colors";
 
 const labelClass =
   "block text-sm font-medium text-muted-foreground mb-2";
@@ -67,6 +74,7 @@ export function InquireForm() {
             type="text"
             required
             autoComplete="name"
+            placeholder=" "
             className={fieldClass}
           />
         </div>
@@ -80,6 +88,7 @@ export function InquireForm() {
             type="email"
             required
             autoComplete="email"
+            placeholder=" "
             className={fieldClass}
           />
         </div>
@@ -93,19 +102,21 @@ export function InquireForm() {
             type="text"
             required
             autoComplete="organization"
+            placeholder=" "
             className={fieldClass}
           />
         </div>
         <div>
-          <label htmlFor="role" className={labelClass}>
-            Role
+          <label htmlFor="position" className={labelClass}>
+            Position
           </label>
           <input
-            id="role"
+            id="position"
             name="role"
             type="text"
             required
             autoComplete="organization-title"
+            placeholder=" "
             className={fieldClass}
           />
         </div>

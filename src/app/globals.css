@@ -143,10 +143,31 @@
   opacity: 1;
 }
 
-/* Form filled state for autofilled fields — overrides Chrome's hardcoded autofill bg.
-   Box-shadow inset trick is the only reliable way to substitute the autofill background.
-   Color matches the `valid:bg-[#e8f0fe]` Tailwind utility on form fields so autofilled
-   and manually-typed fields look identical when filled. */
+/* Form filled state — a field goes light the moment it HAS CONTENT, and stays there.
+
+   This used to key on `:valid`, which flickers. A half-typed email is `:invalid`,
+   so the field snapped back to navy mid-word and only settled once the address
+   parsed — the background was reporting whether the value was well-formed when
+   what a person reads it as is whether they have started typing.
+
+   `:not(:placeholder-shown)` is true from the first character regardless of what
+   the value means. Every field carries `placeholder=" "` so the selector has
+   something to test; the space renders as nothing, and the textarea's real
+   placeholder works the same way.
+
+   Kept as CSS rather than a Tailwind `valid:` variant because the same three
+   declarations now have to reach inputs, the textarea and the autofill block
+   below, and one rule is easier to keep consistent than three utility strings. */
+.field-fill:not(:placeholder-shown) {
+  background-color: #e8f0fe;
+  color: #0a0e1a;
+  border-color: transparent;
+}
+
+/* Autofilled fields — Chrome hardcodes its own background and ignores the rule
+   above, so the same look is reconstructed with the box-shadow inset trick, which
+   is the only reliable substitute. Colors match exactly, so an autofilled field
+   and a typed one are indistinguishable. */
 form input:-webkit-autofill,
 form input:-webkit-autofill:hover,
 form input:-webkit-autofill:focus,
