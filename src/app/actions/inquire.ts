@@ -153,6 +153,91 @@ export async function submitInquiry(formData: FormData): Promise<InquiryResult> 
 }
 
 /**
+ * Server action for the short /learn-more form.
+ *
+ * A reader asking to learn more has not applied to anything, so this asks only
+ * for name, email and company, and Aaron replies by hand with the FAQ. It shares
+ * the inquiries table so every lead sits in one record: `role` is left empty, and
+ * `context` names the source so these rows can be told apart from applications.
+ */
+export async function submitLearnMore(formData: FormData): Promise<InquiryResult> {
+  const honeypot = formData.get("no_fill");
+  if (honeypot && String(honeypot).trim().length > 0) {
+    console.warn(
+      "[LEARN-MORE] honeypot tripped — submission dropped:",
+      JSON.stringify(Object.fromEntries(formData.entries())),
+    );
+    return { ok: true };
+  }
+
+  const data = {
+    name: String(formData.get("name") ?? "").trim(),
+    email: String(formData.get("email") ?? "").trim(),
+    company: String(formData.get("company") ?? "").trim(),
+    role: "",
+    context: "Learn more request",
+  };
+
+  if (!data.name || !data.email || !data.company) {
+    return { ok: false, error: "Please fill in every field." };
+  }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
+    return { ok: false, error: "That doesn't look like a valid email." };
+  }
+
+  const inquiryId = await persistInquiry(data);
+
+  const smtpUser = process.env.SMTP_USER;
+  const smtpPass = process.env.SMTP_PASS;
+  const inquiryTo = process.env.INQUIRY_TO ?? "aaron@phrona.io";
+
+  if (!smtpUser || !smtpPass) {
+    console.error("[LEARN-MORE] SMTP not configured. Submission:");
+    console.error(JSON.stringify(data, null, 2));
+    await markInquiryStatus(inquiryId, "smtp_unconfigured");
+    if (process.env.NODE_ENV === "production") {
+      return {
+        ok: false,
+        error: "Something went wrong. Please email hello@phrona.io directly.",
+      };
+    }
+    return { ok: true };
+  }
+
+  const transporter = nodemailer.createTransport({
+    host: process.env.SMTP_HOST ?? "smtp.gmail.com",
+    port: Number(process.env.SMTP_PORT ?? 587),
+    secure: false,
+    auth: { user: smtpUser, pass: smtpPass },
+  });
+
+  try {
+    await transporter.sendMail({
+      from: smtpUser,
+      to: inquiryTo,
+      replyTo: data.email,
+      subject: `[Phrona learn more] ${data.company} — ${data.name}`,
+      text: [
+        `Name: ${data.name}`,
+        `Email: ${data.email}`,
+        `Company: ${data.company}`,
+        "",
+        "Asked to learn more. Reply to send them the FAQ.",
+      ].join("\n"),
+    });
+    await markInquiryStatus(inquiryId, "sent");
+    return { ok: true };
+  } catch (err) {
+    console.error("[LEARN-MORE] SMTP send failed:", err);
+    await markInquiryStatus(inquiryId, "send_failed");
+    return {
+      ok: false,
+      error: "Something went wrong. Please email hello@phrona.io directly.",
+    };
+  }
+}
+
+/**
  * Write the submission to the landing_inquiries table (Neon) before any
  * email attempt. Returns the row id, or null when the DB is unconfigured
  * or the write fails — persistence must never block the email path.
