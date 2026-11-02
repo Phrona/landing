@@ -67,6 +67,21 @@ export function LearnMoreForm() {
         </div>
       ))}
 
+      <div>
+        <label htmlFor="context" className={labelClass}>
+          What decision are you working through?
+        </label>
+        <textarea
+          id="context"
+          name="context"
+          required
+          rows={5}
+          maxLength={2000}
+          className={`${fieldClass} resize-none`}
+          placeholder="A sentence or two on the decision and what it depends on."
+        />
+      </div>
+
       {error && (
         <p className="text-sm text-[#e58a6a]" role="alert">
           {error}

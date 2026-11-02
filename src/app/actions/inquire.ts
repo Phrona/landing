@@ -153,12 +153,14 @@ export async function submitInquiry(formData: FormData): Promise<InquiryResult> 
 }
 
 /**
- * Server action for the short /learn-more form.
+ * Server action for the /learn-more form, where the sales brief's "Tell us about
+ * your decisions" button lands.
  *
- * A reader asking to learn more has not applied to anything, so this asks only
- * for name, email and company, and Aaron replies by hand with the FAQ. It shares
- * the inquiries table so every lead sits in one record: `role` is left empty, and
- * `context` names the source so these rows can be told apart from applications.
+ * A reader arriving from a document has not applied to the founding cohort, so
+ * this asks for name, email, company and the decision they are working through,
+ * and Aaron replies by hand. It shares the inquiries table so every lead sits in
+ * one record: `role` is left empty, and `context` opens with "Decision:" so these
+ * rows can be told apart from cohort applications.
  */
 export async function submitLearnMore(formData: FormData): Promise<InquiryResult> {
   const honeypot = formData.get("no_fill");
@@ -175,15 +177,20 @@ export async function submitLearnMore(formData: FormData): Promise<InquiryResult
     email: String(formData.get("email") ?? "").trim(),
     company: String(formData.get("company") ?? "").trim(),
     role: "",
-    context: "Learn more request",
+    context: "",
   };
+  const decision = String(formData.get("context") ?? "").trim();
 
-  if (!data.name || !data.email || !data.company) {
+  if (!data.name || !data.email || !data.company || !decision) {
     return { ok: false, error: "Please fill in every field." };
   }
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
     return { ok: false, error: "That doesn't look like a valid email." };
   }
+  if (decision.length > 2000) {
+    return { ok: false, error: "Please keep your note under 2000 characters." };
+  }
+  data.context = `Decision: ${decision}`;
 
   const inquiryId = await persistInquiry(data);
 
@@ -216,13 +223,16 @@ export async function submitLearnMore(formData: FormData): Promise<InquiryResult
       from: smtpUser,
       to: inquiryTo,
       replyTo: data.email,
-      subject: `[Phrona learn more] ${data.company} — ${data.name}`,
+      subject: `[Phrona decision] ${data.company} — ${data.name}`,
       text: [
         `Name: ${data.name}`,
         `Email: ${data.email}`,
         `Company: ${data.company}`,
         "",
-        "Asked to learn more. Reply to send them the FAQ.",
+        "Decision they're working through:",
+        decision,
+        "",
+        "Came from the sales brief. Reply to respond directly.",
       ].join("\n"),
     });
     await markInquiryStatus(inquiryId, "sent");
