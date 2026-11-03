@@ -29,6 +29,10 @@ export function Header() {
   if (pathname === "/") return null;
 
   const isLegal = pathname === "/privacy" || pathname === "/terms";
+  // The brief pages are reached by operators and investors alike; the cohort
+  // CTA is aimed at founders only, so these carry the wordmark and nothing else.
+  const isBrief = pathname === "/for-operators" || pathname === "/for-investors";
+  const showWordmark = isLegal || isBrief;
 
   return (
     <header
@@ -39,7 +43,7 @@ export function Header() {
       }`}
     >
       <div className="max-w-6xl mx-auto flex items-center justify-between gap-4">
-        {isLegal ? (
+        {showWordmark ? (
           <Link href="/" aria-label="Phrona — home" className="inline-block">
             <Image
               src="/logos/Phrona_Light_paths.svg"
@@ -62,6 +66,8 @@ export function Header() {
             <span aria-hidden>←</span>
             <span>Back to Home</span>
           </Link>
+        ) : isBrief ? (
+          <span aria-hidden />
         ) : (
           <Link
             href="/#inquire"
