@@ -49,7 +49,7 @@ export function BriefPage({
           <div className="border-t border-border pt-12">
             <h2 className="font-heading text-2xl sm:text-3xl font-medium mb-3">{briefLabel}</h2>
             <p className="text-base sm:text-lg text-muted-foreground leading-relaxed mb-8">
-              Four pages. No sign-up needed.
+              Five pages. No sign-up needed.
             </p>
             <a
               href={`/download/${briefSlug}`}
