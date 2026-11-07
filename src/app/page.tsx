@@ -56,7 +56,7 @@ function CallToAction() {
         Learn more
       </Link>
       <p className="text-sm text-muted-foreground">
-        Read the brief: 
+        Read the brief:{" "}
         <Link href="/for-operators" className="underline decoration-border underline-offset-4 hover:decoration-foreground hover:text-foreground transition-colors">
           for operators
         </Link>
