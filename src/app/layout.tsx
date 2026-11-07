@@ -1,24 +1,29 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
-import { Montserrat, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import { Header } from "@/components/header";
 import { ScrollReset } from "@/components/scroll-reset";
 import { Footer } from "@/components/footer";
 
-const montserrat = Montserrat({
+// Fonts are served from the repository (variable files, SIL OFL licences beside
+// them) rather than fetched from Google at build time, so a build never fails
+// on a font download.
+const montserrat = localFont({
+  src: "./fonts/Montserrat.woff2",
   variable: "--font-montserrat",
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: "100 900",
+  display: "swap",
 });
 
 // Geist Mono for numerals — matches the workspace pattern used in
 // products/phrona/frontend (font-mono on numbered lists). Reliable
 // slashed-zero + clean tabular figures across platforms.
-const geistMono = Geist_Mono({
+const geistMono = localFont({
+  src: "./fonts/GeistMono.woff2",
   variable: "--font-geist-mono",
-  subsets: ["latin"],
-  weight: ["400", "500"],
+  weight: "100 900",
+  display: "swap",
 });
 
 export const metadata: Metadata = {

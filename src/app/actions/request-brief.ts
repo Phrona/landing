@@ -7,6 +7,9 @@ import { BRIEFS, addSubscriber, isBriefSlug, recordBriefRequest } from "@/lib/br
 
 export type RequestBriefResult = { ok: true; url: string; emailed: boolean } | { ok: false; error: string };
 
+/** Brief emails come from the public address, as the inquiry auto-reply does. */
+const FROM = "hello@phrona.io";
+
 const GENERIC_ERROR = "Something went wrong. Please email hello@phrona.io and we'll send it.";
 
 /**
@@ -75,9 +78,9 @@ export async function requestBrief(formData: FormData): Promise<RequestBriefResu
   let emailed = false;
   try {
     await transporter.sendMail({
-      from: `Aaron Chockla, Phrona <${smtpUser}>`,
+      from: `"Phrona" <${FROM}>`,
       to: email,
-      replyTo: process.env.INQUIRY_TO ?? "aaron@phrona.io",
+      replyTo: FROM,
       subject: `Your copy of ${meta.title}`,
       text: [
         "Thanks for your interest in Phrona.",
@@ -99,7 +102,7 @@ export async function requestBrief(formData: FormData): Promise<RequestBriefResu
 
   try {
     await transporter.sendMail({
-      from: smtpUser,
+      from: `"Phrona" <${FROM}>`,
       to: process.env.INQUIRY_TO ?? "aaron@phrona.io",
       replyTo: email,
       subject: `[Phrona brief] ${email} (${meta.audience})`,
