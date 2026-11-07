@@ -9,14 +9,15 @@ import {
 } from "@/lib/understanding-contents";
 
 export const metadata: Metadata = {
-  title: "Understanding Phrona",
+  title: "How Phrona works",
+  alternates: { canonical: "/how-it-works" },
   description:
     "What Phrona is, what it isn’t, and why we believe every company will eventually need strategy infrastructure.",
   openGraph: {
     title: "Understanding Phrona",
     description:
       "What Phrona is, what it isn’t, and why we believe every company will eventually need strategy infrastructure.",
-    url: "https://phrona.io/understanding-phrona",
+    url: "https://phrona.io/how-it-works",
     siteName: "Phrona",
     type: "article",
   },
@@ -700,10 +701,10 @@ export default function UnderstandingPhrona() {
                 whether joining the Founding Cohort makes sense? Let’s connect.
               </p>
               <Link
-                href="/#inquire"
+                href="/connect"
                 className="inline-flex items-center justify-center px-6 py-3 bg-hero text-hero-foreground rounded-full text-lg font-bold hover:shadow-[0_0_28px_rgba(120,180,255,0.65),0_0_64px_rgba(120,180,255,0.40)]"
               >
-                Join our founding cohort
+                Connect with Phrona
               </Link>
               <p className="mt-12 text-sm text-muted-foreground">
                 <a

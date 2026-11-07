@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { submitLearnMore } from "@/app/actions/inquire";
+import { submitConnect } from "@/app/actions/inquire";
 
 const fieldClass =
   "field-fill w-full bg-transparent border border-border rounded-md px-4 py-3 text-base text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:border-foreground transition-colors";
@@ -14,7 +14,14 @@ const FIELDS = [
   { id: "company", label: "Company", type: "text", autoComplete: "organization" },
 ] as const;
 
-export function LearnMoreForm() {
+const AUDIENCES = [
+  { value: "operator", label: "An operator" },
+  { value: "investor", label: "An investor" },
+  { value: "other", label: "Other" },
+] as const;
+
+/** The /connect form: who you are, and the decision you are working through. */
+export function ConnectForm() {
   const [pending, startTransition] = useTransition();
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -22,7 +29,7 @@ export function LearnMoreForm() {
   function onSubmit(formData: FormData) {
     setError(null);
     startTransition(async () => {
-      const result = await submitLearnMore(formData);
+      const result = await submitConnect(formData);
       if (result.ok) {
         setSuccess(true);
       } else {
@@ -67,6 +74,21 @@ export function LearnMoreForm() {
         </div>
       ))}
 
+      <fieldset>
+        <legend className={labelClass}>I&apos;m</legend>
+        <div className="flex flex-wrap gap-3">
+          {AUDIENCES.map((a) => (
+            <label
+              key={a.value}
+              className="flex items-center gap-2.5 border border-border rounded-full px-4 py-2 text-base text-foreground cursor-pointer has-[:checked]:border-foreground has-[:checked]:bg-[rgba(255,255,255,0.06)] transition-colors"
+            >
+              <input type="radio" name="audience" value={a.value} required className="h-4 w-4 accent-[rgb(120,180,255)]" />
+              {a.label}
+            </label>
+          ))}
+        </div>
+      </fieldset>
+
       <div>
         <label htmlFor="context" className={labelClass}>
           What decision are you working through?
@@ -94,7 +116,7 @@ export function LearnMoreForm() {
           disabled={pending}
           className="inline-flex items-center justify-center px-6 py-3 bg-hero text-hero-foreground rounded-full text-lg font-bold hover:opacity-100 hover:shadow-[0_0_28px_rgba(120,180,255,0.65),0_0_64px_rgba(120,180,255,0.40)] disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {pending ? "Submitting…" : "Explore a decision with us"}
+          {pending ? "Submitting…" : "Connect with Phrona"}
         </button>
       </div>
     </form>

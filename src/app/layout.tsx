@@ -5,6 +5,7 @@ import "./globals.css";
 import { Header } from "@/components/header";
 import { ScrollReset } from "@/components/scroll-reset";
 import { Footer } from "@/components/footer";
+import { StructuredData } from "@/components/structured-data";
 
 // Fonts are served from the repository (variable files, SIL OFL licences beside
 // them) rather than fetched from Google at build time, so a build never fails
@@ -28,22 +29,33 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://phrona.io"),
-  title: "Phrona — Strategy made coherent",
+  // Title and description are the strings search engines display and AI systems
+  // read as the definition of what this company is. They must match the page's
+  // own claim — a stale pair here is the retired positioning shown on every
+  // forward preview, search result, and machine read.
+  title: {
+    default: "Phrona — Infrastructure for strategy",
+    template: "%s — Phrona",
+  },
   description:
-    "A reasoning engine for the bets that matter. Private beta for hardtech and cleantech founders.",
+    "Phrona continuously monitors the world around you, keeping the convictions your strategy depends on grounded in reality and your strategy itself coherent. Private beta for hardtech and cleantech founders.",
+  applicationName: "Phrona",
+  authors: [{ name: "Phrona, Inc.", url: "https://phrona.io" }],
+  creator: "Phrona, Inc.",
+  publisher: "Phrona, Inc.",
   openGraph: {
-    title: "Phrona — Strategy made coherent",
+    title: "Phrona — Infrastructure for strategy",
     description:
-      "Your strategy, brought to life. Private beta for hardtech and cleantech founders.",
+      "Phrona continuously monitors the world around you, keeping the convictions your strategy depends on grounded in reality and your strategy itself coherent.",
     url: "https://phrona.io",
     siteName: "Phrona",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Phrona — Strategy made coherent",
+    title: "Phrona — Infrastructure for strategy",
     description:
-      "Your strategy, brought to life. Private beta for hardtech and cleantech founders.",
+      "Phrona continuously monitors the world around you, keeping the convictions your strategy depends on grounded in reality and your strategy itself coherent.",
   },
 };
 
@@ -56,6 +68,7 @@ export default function RootLayout({
       className={`${montserrat.variable} ${geistMono.variable} h-full antialiased motion-safe:scroll-smooth`}
     >
       <body className="min-h-full flex flex-col font-sans">
+        <StructuredData />
         <ScrollReset />
         <Header />
         {children}

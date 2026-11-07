@@ -8,7 +8,7 @@ export type InquiryResult =
   | { ok: false; error: string };
 
 /**
- * Server action — handles founding-cohort inquiry form submissions.
+ * Server action — the founding-cohort application on /for-operators.
  *
  * Flow: validate → anti-spam check → send to hello@phrona.io + auto-reply to applicant.
  *
@@ -43,6 +43,7 @@ export async function submitInquiry(formData: FormData): Promise<InquiryResult> 
     company: String(formData.get("company") ?? "").trim(),
     role: String(formData.get("role") ?? "").trim(),
     context: String(formData.get("context") ?? "").trim(),
+    audience: "operator",
   };
 
   // --- Validation ---
@@ -152,21 +153,24 @@ export async function submitInquiry(formData: FormData): Promise<InquiryResult> 
   }
 }
 
+const AUDIENCES = new Set(["operator", "investor", "other"]);
+
 /**
- * Server action for the /learn-more form, where the sales brief's "Tell us about
- * your decisions" button lands.
+ * Server action for /connect, where the header's Connect button, the briefs'
+ * "Explore Phrona" link (via the /learn-more redirect) and every conversation
+ * link on the site land.
  *
- * A reader arriving from a document has not applied to the founding cohort, so
- * this asks for name, email, company and the decision they are working through,
- * and Aaron replies by hand. It shares the inquiries table so every lead sits in
- * one record: `role` is left empty, and `context` opens with "Decision:" so these
- * rows can be told apart from cohort applications.
+ * It asks for name, email, company, whether the person is an operator, an
+ * investor or other, and the decision they are working through; Aaron replies by
+ * hand. It shares the inquiries table so every lead sits in one record: `role` is
+ * left empty, `audience` holds the selector, and `context` opens with "Decision:"
+ * so these rows can be told apart from cohort applications.
  */
-export async function submitLearnMore(formData: FormData): Promise<InquiryResult> {
+export async function submitConnect(formData: FormData): Promise<InquiryResult> {
   const honeypot = formData.get("no_fill");
   if (honeypot && String(honeypot).trim().length > 0) {
     console.warn(
-      "[LEARN-MORE] honeypot tripped — submission dropped:",
+      "[CONNECT] honeypot tripped — submission dropped:",
       JSON.stringify(Object.fromEntries(formData.entries())),
     );
     return { ok: true };
@@ -178,11 +182,15 @@ export async function submitLearnMore(formData: FormData): Promise<InquiryResult
     company: String(formData.get("company") ?? "").trim(),
     role: "",
     context: "",
+    audience: String(formData.get("audience") ?? "").trim(),
   };
   const decision = String(formData.get("context") ?? "").trim();
 
-  if (!data.name || !data.email || !data.company || !decision) {
+  if (!data.name || !data.email || !data.company || !decision || !data.audience) {
     return { ok: false, error: "Please fill in every field." };
+  }
+  if (!AUDIENCES.has(data.audience)) {
+    return { ok: false, error: "Please choose operator, investor or other." };
   }
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
     return { ok: false, error: "That doesn't look like a valid email." };
@@ -199,7 +207,7 @@ export async function submitLearnMore(formData: FormData): Promise<InquiryResult
   const inquiryTo = process.env.INQUIRY_TO ?? "aaron@phrona.io";
 
   if (!smtpUser || !smtpPass) {
-    console.error("[LEARN-MORE] SMTP not configured. Submission:");
+    console.error("[CONNECT] SMTP not configured. Submission:");
     console.error(JSON.stringify(data, null, 2));
     await markInquiryStatus(inquiryId, "smtp_unconfigured");
     if (process.env.NODE_ENV === "production") {
@@ -223,22 +231,23 @@ export async function submitLearnMore(formData: FormData): Promise<InquiryResult
       from: smtpUser,
       to: inquiryTo,
       replyTo: data.email,
-      subject: `[Phrona decision] ${data.company} — ${data.name}`,
+      subject: `[Phrona connect] ${data.company} — ${data.name} (${data.audience})`,
       text: [
         `Name: ${data.name}`,
         `Email: ${data.email}`,
         `Company: ${data.company}`,
+        `They are: ${data.audience}`,
         "",
         "Decision they're working through:",
         decision,
         "",
-        "Came from the sales brief. Reply to respond directly.",
+        "Sent from phrona.io/connect. Reply to respond directly.",
       ].join("\n"),
     });
     await markInquiryStatus(inquiryId, "sent");
     return { ok: true };
   } catch (err) {
-    console.error("[LEARN-MORE] SMTP send failed:", err);
+    console.error("[CONNECT] SMTP send failed:", err);
     await markInquiryStatus(inquiryId, "send_failed");
     return {
       ok: false,
@@ -258,6 +267,7 @@ async function persistInquiry(data: {
   company: string;
   role: string;
   context: string;
+  audience: string;
 }): Promise<number | null> {
   const dbUrl = process.env.DATABASE_URL;
   if (!dbUrl) {
@@ -267,8 +277,8 @@ async function persistInquiry(data: {
   try {
     const sql = neon(dbUrl);
     const rows = await sql`
-      INSERT INTO landing_inquiries (name, email, company, role, context)
-      VALUES (${data.name}, ${data.email}, ${data.company}, ${data.role}, ${data.context})
+      INSERT INTO landing_inquiries (name, email, company, role, context, audience)
+      VALUES (${data.name}, ${data.email}, ${data.company}, ${data.role}, ${data.context}, ${data.audience})
       RETURNING id
     `;
     return (rows[0]?.id as number) ?? null;

@@ -1,14 +1,13 @@
 import type { Metadata } from "next";
-import { LearnMoreForm } from "@/components/learn-more-form";
+import { ConnectForm } from "@/components/connect-form";
 
 export const metadata: Metadata = {
-  title: "Start with one important decision | Phrona",
-  description: "Tell us what you're deciding, what it depends on, and what may be changing around it.",
-  // Reached from forwarded documents, not from search.
-  robots: { index: false, follow: true },
+  title: "Connect with Phrona",
+  description: "Start with one important decision. Tell us what you're deciding, what it depends on, and what may be changing around it.",
+  alternates: { canonical: "/connect" },
 };
 
-export default function LearnMorePage() {
+export default function ConnectPage() {
   return (
     <main className="flex flex-1 flex-col">
       <section className="px-6 py-16 sm:py-24">
@@ -21,7 +20,7 @@ export default function LearnMorePage() {
               Tell us what you&rsquo;re deciding, what it depends on, and what may be changing around it. We&rsquo;ll follow up to learn more and see whether Phrona can help.
             </p>
           </div>
-          <LearnMoreForm />
+          <ConnectForm />
         </div>
       </section>
     </main>

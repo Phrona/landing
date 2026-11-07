@@ -1,7 +1,7 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { SmallCaps } from "@/components/small-caps";
-import { InquireForm } from "@/components/inquire-form";
 
 const DECISIONS = [
   {
@@ -36,38 +36,52 @@ const DECISIONS = [
   },
 ];
 
-/**
- * The page's call to action: join, or read first. Both placements use this,
- * so the secondary door is never missing from one of them.
- */
-function CallToAction() {
-  return (
-    <div className="flex flex-col items-center gap-8">
-      <a
-        href="#inquire"
-        className="inline-flex items-center justify-center px-6 py-3 bg-hero text-hero-foreground rounded-full text-lg font-bold hover:opacity-100 hover:shadow-[0_0_28px_rgba(120,180,255,0.65),0_0_64px_rgba(120,180,255,0.40)]"
-      >
-        Join our founding cohort
-      </a>
-      <Link
-        href="/understanding-phrona"
-        className="inline-flex items-center justify-center px-6 py-3 bg-[#94a3b8] text-hero-foreground rounded-full text-lg font-bold hover:shadow-[0_0_20px_rgba(120,180,255,0.40),0_0_44px_rgba(120,180,255,0.22)] transition-shadow"
-      >
-        Learn more
-      </Link>
-      <p className="text-sm text-muted-foreground">
-        Read the brief:{" "}
-        <Link href="/for-operators" className="underline decoration-border underline-offset-4 hover:decoration-foreground hover:text-foreground transition-colors">
-          for operators
-        </Link>
-        <span className="mx-2 text-[rgba(255,255,255,0.25)]">·</span>
-        <Link href="/for-investors" className="underline decoration-border underline-offset-4 hover:decoration-foreground hover:text-foreground transition-colors">
-          for investors
-        </Link>
-      </p>
-    </div>
-  );
-}
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
+
+const MOVES = [
+  {
+    n: "01",
+    title: "Capture",
+    body: "Phrona maps your convictions, the goals they support and the initiatives they enable into a living model of your strategy.",
+  },
+  {
+    n: "02",
+    title: "Monitor",
+    body: "It watches the external drivers that matter because of those convictions: competitors, markets, regulation, technology, customers, and capital.",
+  },
+  {
+    n: "03",
+    title: "Challenge",
+    body: "As new evidence emerges, it tests your convictions, surfacing weak assumptions, blind spots, and views that no longer reflect reality.",
+  },
+  {
+    n: "04",
+    title: "Inform",
+    body: "It shows what is now at risk, what else may be affected, and where your attention is needed. The judgment remains yours.",
+  },
+];
+
+const PATHS = [
+  {
+    href: "/for-operators",
+    eyebrow: "For operators",
+    title: "Keep important decisions connected to the conditions they depend on.",
+    body: "See when changing conditions call for a second look, before time and capital follow the original plan. The founding cohort is open to ten companies.",
+    cta: "Get the operator brief",
+  },
+  {
+    href: "/for-investors",
+    eyebrow: "For investors",
+    title: "Keep each investment connected to the assumptions behind it.",
+    body: "See when new evidence undermines a thesis and where board attention belongs, before more capital is committed.",
+    cta: "Get the investor brief",
+  },
+];
+
+const primaryButton =
+  "inline-flex items-center justify-center px-6 py-3 bg-hero text-hero-foreground rounded-full text-lg font-bold hover:opacity-100 hover:shadow-[0_0_28px_rgba(120,180,255,0.65),0_0_64px_rgba(120,180,255,0.40)]";
 
 export default function Home() {
   return (
@@ -95,7 +109,9 @@ export default function Home() {
           strategy itself coherent.
         </p>
 
-        <CallToAction />
+        <a href="#how-it-works" className={primaryButton}>
+          See how it works
+        </a>
       </section>
 
       {/* Pain → Root → Resolution → CTA */}
@@ -165,30 +181,84 @@ export default function Home() {
             <p className="font-heading text-2xl sm:text-3xl font-medium text-foreground leading-[1.2] mb-12">
               Until Phrona
             </p>
-            <p className="font-heading text-2xl sm:text-3xl font-medium text-foreground leading-[1.2] mb-20">
+            <p className="font-heading text-2xl sm:text-3xl font-medium text-foreground leading-[1.2]">
               Infrastructure for strategy.
             </p>
-
-            <CallToAction />
           </div>
         </div>
       </section>
 
-      {/* Inquire */}
-      <section id="inquire" className="px-6 pb-24 sm:pb-32">
+      {/* How it works, in brief */}
+      <section id="how-it-works" className="px-6 pb-24 sm:pb-32 scroll-mt-20">
         <div className="max-w-6xl mx-auto pt-24 sm:pt-32 border-t border-border">
-          <div className="max-w-2xl mx-auto">
-            <div className="text-center mb-14">
-              <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl font-medium mb-8 leading-[1.15]">
-                Phrona is launching in beta.
-              </h2>
-              <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed">
-                We&rsquo;re partnering with ten companies to define what
-                infrastructure for strategy becomes.
-              </p>
-            </div>
-            <InquireForm />
+          <div className="text-center mb-16 max-w-3xl mx-auto">
+            <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl font-medium mb-6 leading-[1.15]">
+              How Phrona works
+            </h2>
+            <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed">
+              Four moves keep your strategy connected to the world it depends on.
+            </p>
           </div>
+          <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-12 max-w-5xl mx-auto">
+            {MOVES.map((m) => (
+              <li key={m.n}>
+                <div className="flex items-baseline gap-3 mb-3">
+                  <span className="font-mono text-base sm:text-lg text-[rgb(120,180,255)] slashed-zero tabular-nums font-medium shrink-0">
+                    {m.n}
+                  </span>
+                  <h3 className="font-heading text-xl sm:text-2xl font-semibold leading-snug">
+                    <SmallCaps>{m.title}</SmallCaps>
+                  </h3>
+                </div>
+                <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">{m.body}</p>
+              </li>
+            ))}
+          </ul>
+          <p className="text-center mt-16">
+            <Link
+              href="/how-it-works"
+              className="text-base sm:text-lg text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground transition-colors"
+            >
+              Read the full explanation &rarr;
+            </Link>
+          </p>
+        </div>
+      </section>
+
+      {/* Two paths */}
+      <section className="px-6 pb-24 sm:pb-32">
+        <div className="max-w-6xl mx-auto pt-24 sm:pt-32 border-t border-border">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {PATHS.map((p) => (
+              <Link
+                key={p.href}
+                href={p.href}
+                className="pain-glow rounded-xl p-8 sm:p-10 flex flex-col group"
+              >
+                <p className="text-xs sm:text-sm uppercase tracking-[0.2em] text-muted-foreground mb-5">{p.eyebrow}</p>
+                <h3 className="font-heading text-2xl sm:text-3xl font-medium leading-[1.25] mb-5">{p.title}</h3>
+                <p className="text-base sm:text-lg text-muted-foreground leading-relaxed mb-8">{p.body}</p>
+                <span className="mt-auto text-base sm:text-lg font-semibold text-foreground underline decoration-border underline-offset-4 group-hover:decoration-foreground transition-colors">
+                  {p.cta} &rarr;
+                </span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Close */}
+      <section className="px-6 pb-24 sm:pb-32">
+        <div className="max-w-6xl mx-auto pt-24 sm:pt-32 border-t border-border text-center">
+          <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl font-medium mb-6 leading-[1.15]">
+            Start with one important decision.
+          </h2>
+          <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto mb-12">
+            Tell us what you&rsquo;re deciding and what it depends on. We&rsquo;ll show you how Phrona would keep it current.
+          </p>
+          <Link href="/connect" className={primaryButton}>
+            Connect with Phrona
+          </Link>
         </div>
       </section>
     </main>

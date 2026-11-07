@@ -149,7 +149,7 @@ export function InquireForm() {
           disabled={pending}
           className="inline-flex items-center justify-center px-6 py-3 bg-hero text-hero-foreground rounded-full text-lg font-bold hover:opacity-100 hover:shadow-[0_0_28px_rgba(120,180,255,0.65),0_0_64px_rgba(120,180,255,0.40)] disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {pending ? "Submitting…" : "Submit"}
+          {pending ? "Submitting…" : "Apply to join"}
         </button>
       </div>
     </form>

@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import Image from "next/image";
 import { BriefRequestForm } from "@/components/brief-request-form";
 import type { BriefSlug } from "@/lib/briefs";
@@ -7,7 +8,9 @@ import type { BriefSlug } from "@/lib/briefs";
  *
  * The offer comes first: the headline, one paragraph on the problem, then the
  * request form. Below it, three one-line claims and what the reader gets in
- * the brief, with its cover, so the offer is concrete.
+ * the brief, with its cover, so the offer is concrete. Each page then closes on
+ * its next step: the founding-cohort application for operators, a conversation
+ * for investors.
  */
 export function BriefPage({
   eyebrow,
@@ -17,6 +20,7 @@ export function BriefPage({
   inside,
   briefSlug,
   cover,
+  children,
 }: {
   eyebrow: string;
   title: string;
@@ -25,6 +29,8 @@ export function BriefPage({
   inside: string[];
   briefSlug: BriefSlug;
   cover: { src: string; alt: string };
+  /** What follows the brief: the cohort application, or a way to talk. */
+  children?: ReactNode;
 }) {
   return (
     <main className="flex flex-1 flex-col">
@@ -68,6 +74,8 @@ export function BriefPage({
               </ul>
             </div>
           </div>
+
+          {children}
         </div>
       </section>
     </main>

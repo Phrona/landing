@@ -5,17 +5,23 @@ This is the public marketing site for [Phrona, Inc.](https://phrona.io). Pre-pro
 ## Project structure
 
 ```
-src/app/                  Next.js App Router routes (/, /privacy, /terms)
-  ├── page.tsx            Landing page (hero, pain grid, bio, inquire form)
+src/app/                  Next.js App Router routes
+  ├── page.tsx            Home: hero → problem → how it works (short) → two paths → Connect
+  ├── how-it-works/       The full explainer (was /understanding-phrona; redirects)
+  ├── for-operators/      Operator brief (email-gated) + founding-cohort application
+  ├── for-investors/      Investor brief (email-gated) + Connect
+  ├── connect/            "Start with one important decision" + inquiry form (operator/investor/other)
+  ├── download/           Counted PDF downloads; briefs need a signed link (BRIEF_LINK_SECRET)
   ├── privacy/            /privacy → MarkdownPage rendering src/content/privacy.md
   ├── terms/              /terms → MarkdownPage rendering src/content/terms.md
-  ├── actions/inquire.ts  Server action: validates form, sends via SMTP
+  ├── actions/inquire.ts  Cohort application (submitInquiry) and /connect (submitConnect)
+  ├── actions/request-brief.ts  "Email me the brief": records the request, emails a signed link
   ├── icon.png/svg        Favicon (navy badge + white P-mark)
   ├── apple-icon.png      Apple touch icon (180x180)
   └── opengraph-image.png OG share image (1200x630, navy + wordmark)
 
 src/components/
-  ├── header.tsx          Hides on /, shows on legal pages with "← Back to Home"
+  ├── header.tsx          Every page: wordmark, How it works · For operators · For investors, Connect button
   ├── footer.tsx          Global, "© 2026 Phrona, Inc."
   ├── inquire-form.tsx    Client form, calls submitInquiry server action
   └── markdown-page.tsx   Renders markdown with TOC + numbered section badges
@@ -38,13 +44,13 @@ scripts/                  Brand asset generators
 
 ## Headline + framing (locked)
 
-- Hero headline: *"Your strategy. Made coherent. Brought to life."* (one line, non-italic, max-w-5xl)
+- Hero headline: *"Phrona is infrastructure for strategy."* (the live hero; the older "Your strategy. Made coherent. Brought to life." is retired)
 - Pain section eyebrow: "Strategy is complex. It's easy to get lost." (uppercase, tracked)
 - Pain section H2: "Does any of this feel familiar?"
 - Unifier: "These breakdowns share a root cause: **strategy without infrastructure.**"
 - 3-beat pattern: "Sales has Salesforce. / Finance has NetSuite. / HR has Workday." → punchline: **"Strategy has nothing."** (uppercase tracked, white)
 - Resolution: "Phrona is the missing link — it brings your strategy to life and keeps it current while the world changes around you."
-- All CTAs: **"Join our founding cohort"** (final form CTA: **"Submit"**)
+- **Calls to action (2026-11-07, Aaron):** the site is organised by audience. **Connect** is the one persistent header button; **Connect with Phrona** is the fuller form where a page closes. Home's only hero action is **See how it works**. The founding-cohort application lives on **/for-operators** ("Join the founding cohort", button "Apply to join"), not on home. Explanatory links go to `/how-it-works`; conversation and inquiry links go to `/connect`. `/learn-more` redirects to `/connect` because circulating briefs link there.
 
 ## Legal entity
 
@@ -68,7 +74,7 @@ The broader Phrona product (app, backend, design specs, LOCKED L0–L5 prompts) 
 - **Hosting:** Vercel — project `phrona-marketing-landing` on Aaron's personal Hobby account (`aaronchockla's projects`); no Phrona team exists. Hobby retention limits: runtime logs ~1 hour, observability ~12 hours — treat Vercel logs as non-durable.
 - **Domain:** phrona.io (apex) + www.phrona.io (redirect)
 - **Email infra:** Google Workspace (aaron@phrona.io, hello@phrona.io); SPF/DKIM/DMARC all PASS as of 2026-04-27
-- **Form backend:** server action → nodemailer over Workspace SMTP. Env vars: `SMTP_USER`, `SMTP_PASS` (Workspace App Password), `INQUIRY_TO` (unset in prod = correct: defaults to aaron@phrona.io direct, dodging the hello@ alias self-send quirk). Honeypot field must keep an autofill-meaningless name (never url/company/website — Chrome fills hidden fields it recognizes and the submission silently drops); submissions are NOT persisted anywhere — the notification email is the only durable record.
+- **Form backend:** server action → nodemailer over Workspace SMTP. Env vars: `SMTP_USER`, `SMTP_PASS` (Workspace App Password), `INQUIRY_TO` (unset in prod = correct: defaults to aaron@phrona.io direct, dodging the hello@ alias self-send quirk). Honeypot field must keep an autofill-meaningless name (never url/company/website — Chrome fills hidden fields it recognizes and the submission silently drops); submissions are persisted to Neon (`landing_inquiries`, `landing_brief_requests`, `landing_subscribers`, `landing_downloads`, created by the product backend's migrations 013, 085, 086) through `DATABASE_URL`, which logs in as `phrona_site`, a role limited to those four tables (Production only; see the Phrona repo's `docs/SECRETS.md`). The notification email is sent as well.
 
 ## Sessions
 

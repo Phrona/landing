@@ -7,10 +7,10 @@ export function Footer() {
         </div>
         <nav className="flex flex-wrap gap-x-8 gap-y-3 text-sm text-[rgba(255,255,255,0.4)]">
           <a
-            href="/understanding-phrona"
+            href="/how-it-works"
             className="hover:text-[rgba(255,255,255,0.75)] transition-colors"
           >
-            Understanding Phrona
+            How it works
           </a>
           <a
             href="/for-operators"
@@ -25,6 +25,12 @@ export function Footer() {
             For investors
           </a>
           <a
+            href="/connect"
+            className="hover:text-[rgba(255,255,255,0.75)] transition-colors"
+          >
+            Connect
+          </a>
+          <a
             href="/privacy"
             className="hover:text-[rgba(255,255,255,0.75)] transition-colors"
           >
@@ -35,12 +41,6 @@ export function Footer() {
             className="hover:text-[rgba(255,255,255,0.75)] transition-colors"
           >
             Terms
-          </a>
-          <a
-            href="mailto:hello@phrona.io"
-            className="hover:text-[rgba(255,255,255,0.75)] transition-colors"
-          >
-            Contact
           </a>
           <a
             href="https://acstrategygroup.com"
