@@ -75,7 +75,7 @@ export function BriefRequestForm({ brief }: { brief: BriefSlug }) {
       </div>
       <label className="mt-4 flex items-start gap-3 text-sm text-muted-foreground cursor-pointer">
         <input type="checkbox" name="updates" className="mt-0.5 h-4 w-4 accent-[rgb(120,180,255)]" />
-        <span>Join our mailing list to receive product updates. Unsubscribe anytime.</span>
+        <span>Send me occasional product updates (unsubscribe anytime).</span>
       </label>
       {error && (
         <p className="mt-3 text-sm text-[#e58a6a]" role="alert">

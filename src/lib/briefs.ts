@@ -4,8 +4,8 @@ import { neon } from "@neondatabase/serverless";
  * The decision briefs offered on /for-operators and /for-investors.
  *
  * The PDFs live in `private/briefs/`, outside `public/`, so they are reachable
- * only through `/download/[brief]` with a link issued when someone asks for the
- * brief by email. `next.config.ts` traces the folder into the download route.
+ * only through `/download/[brief]` with a signed link (`brief-link.ts`) issued
+ * when someone asks for the brief by email. `next.config.ts` traces the folder into the download route.
  */
 export const BRIEFS = {
   "operator-brief": {
@@ -39,7 +39,7 @@ function db() {
 
 /**
  * Records a brief request and returns its id, or null when it could not be
- * stored. The token is what the download link carries.
+ * stored. The nonce is the random part of the request's signed link.
  */
 export async function recordBriefRequest(r: {
   token: string;
@@ -77,32 +77,6 @@ export async function recordBriefRequest(r: {
   } catch (err) {
     console.error("[BRIEF] persistence failed:", err);
     return null;
-  }
-}
-
-/**
- * What a download link resolves to:
- * - `valid`: the token was issued for this brief;
- * - `invalid`: the database answered and the token is not one of ours;
- * - `unchecked`: the database could not be reached. The route serves the file
- *   in that case, because a failed lookup must never cost a reader who asked
- *   for the brief their copy.
- */
-export async function checkBriefToken(
-  token: string | null,
-  brief: BriefSlug,
-): Promise<{ status: "valid"; requestId: number } | { status: "invalid" } | { status: "unchecked" }> {
-  if (!token) return { status: "invalid" };
-  const sql = db();
-  if (!sql) return { status: "unchecked" };
-  try {
-    const rows = (await sql`
-      SELECT id FROM landing_brief_requests WHERE token = ${token} AND brief = ${brief} LIMIT 1
-    `) as { id: number }[];
-    return rows[0] ? { status: "valid", requestId: rows[0].id } : { status: "invalid" };
-  } catch (err) {
-    console.error("[BRIEF] token lookup failed:", err);
-    return { status: "unchecked" };
   }
 }
 

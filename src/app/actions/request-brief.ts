@@ -1,8 +1,8 @@
 "use server";
 
-import { randomUUID } from "node:crypto";
 import { headers } from "next/headers";
 import nodemailer from "nodemailer";
+import { issueBriefToken, linkSecretConfigured, newNonce } from "@/lib/brief-link";
 import { BRIEFS, addSubscriber, isBriefSlug, recordBriefRequest } from "@/lib/briefs";
 
 export type RequestBriefResult = { ok: true; url: string; emailed: boolean } | { ok: false; error: string };
@@ -12,8 +12,8 @@ const GENERIC_ERROR = "Something went wrong. Please email hello@phrona.io and we
 /**
  * Server action behind "Email me the brief" on /for-operators and /for-investors.
  *
- * The brief is offered for a work email. On submit: record the request with a
- * fresh token (Neon, `landing_brief_requests`), add the address to the mailing
+ * The brief is offered for a work email. On submit: record the request (Neon,
+ * `landing_brief_requests`), issue a signed download link (`brief-link.ts`), add the address to the mailing
  * list only if the reader ticked the opt-in box, email the reader a copy of the
  * download link, and notify Aaron. The page then shows the same link so the
  * reader can download straight away.
@@ -40,11 +40,19 @@ export async function requestBrief(formData: FormData): Promise<RequestBriefResu
   if (!isBriefSlug(brief)) return { ok: false, error: GENERIC_ERROR };
   const meta = BRIEFS[brief];
 
-  const token = randomUUID();
-  const requestId = await recordBriefRequest({ token, email, brief, wantsUpdates, source });
-  const subscribed = wantsUpdates ? await addSubscriber(email, meta.audience) : false;
+  // No signing key, no link: the gate stays shut rather than handing out an unsigned file.
+  if (!linkSecretConfigured()) {
+    console.error("[BRIEF] BRIEF_LINK_SECRET not set — no link issued.", email, brief);
+    return { ok: false, error: GENERIC_ERROR };
+  }
 
-  const path = `/download/${brief}?t=${token}`;
+  const nonce = newNonce();
+  const requestId = await recordBriefRequest({ token: nonce, email, brief, wantsUpdates, source });
+  const subscribed = wantsUpdates ? await addSubscriber(email, meta.audience) : false;
+  const token = issueBriefToken(brief, requestId, nonce);
+  if (!token) return { ok: false, error: GENERIC_ERROR };
+
+  const path = `/download/${brief}?t=${encodeURIComponent(token)}`;
   const h = await headers();
   const host = h.get("x-forwarded-host") ?? h.get("host") ?? "phrona.io";
   const proto = h.get("x-forwarded-proto") ?? (host.startsWith("localhost") ? "http" : "https");
