@@ -39,7 +39,11 @@ function resolveSource(url: URL, referrer: string | null): string | null {
   }
 }
 
-export async function logDownload(request: Request, asset: string): Promise<void> {
+/**
+ * `source` overrides the `?from=` attribution, e.g. `request:42` for a brief
+ * downloaded through the link issued for request 42.
+ */
+export async function logDownload(request: Request, asset: string, source?: string | null): Promise<void> {
   const url = new URL(request.url);
   const referrer = request.headers.get("referer");
 
@@ -70,7 +74,7 @@ export async function logDownload(request: Request, asset: string): Promise<void
         (asset, source, referrer, user_agent, country, city)
       VALUES (
         ${asset},
-        ${resolveSource(url, referrer)},
+        ${source ?? resolveSource(url, referrer)},
         ${referrer?.slice(0, 500) ?? null},
         ${request.headers.get("user-agent")?.slice(0, 500) ?? null},
         ${request.headers.get("x-vercel-ip-country")},
