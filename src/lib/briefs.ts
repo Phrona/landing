@@ -30,7 +30,6 @@ export function isBriefSlug(value: string): value is BriefSlug {
   return Object.prototype.hasOwnProperty.call(BRIEFS, value);
 }
 
-let requestsReady = false;
 
 function db() {
   const url = process.env.DATABASE_URL;
@@ -54,20 +53,6 @@ export async function recordBriefRequest(r: {
     return null;
   }
   try {
-    if (!requestsReady) {
-      await sql`
-        CREATE TABLE IF NOT EXISTS landing_brief_requests (
-          id SERIAL PRIMARY KEY,
-          token TEXT NOT NULL UNIQUE,
-          email TEXT NOT NULL,
-          brief TEXT NOT NULL,
-          wants_updates BOOLEAN NOT NULL DEFAULT false,
-          source TEXT,
-          requested_at TIMESTAMPTZ NOT NULL DEFAULT now()
-        )
-      `;
-      requestsReady = true;
-    }
     const rows = (await sql`
       INSERT INTO landing_brief_requests (token, email, brief, wants_updates, source)
       VALUES (${r.token}, ${r.email.toLowerCase()}, ${r.brief}, ${r.wantsUpdates}, ${r.source})
@@ -80,7 +65,6 @@ export async function recordBriefRequest(r: {
   }
 }
 
-let subscribersReady = false;
 
 /**
  * Adds an address to the mailing list (`landing_subscribers`). Only called when
@@ -94,18 +78,6 @@ export async function addSubscriber(email: string, audience: string): Promise<bo
     return false;
   }
   try {
-    if (!subscribersReady) {
-      await sql`
-        CREATE TABLE IF NOT EXISTS landing_subscribers (
-          id SERIAL PRIMARY KEY,
-          email TEXT NOT NULL,
-          audience TEXT NOT NULL,
-          subscribed_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-          UNIQUE (email, audience)
-        )
-      `;
-      subscribersReady = true;
-    }
     await sql`
       INSERT INTO landing_subscribers (email, audience)
       VALUES (${email.toLowerCase()}, ${audience})

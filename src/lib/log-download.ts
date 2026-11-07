@@ -1,7 +1,8 @@
 import { neon } from "@neondatabase/serverless";
 
 /**
- * Records one download in Neon (`landing_downloads`).
+ * Records one download in Neon (`landing_downloads`, created by the product
+ * backend's migration 085; the website's login can only read and write it).
  *
  * Downloads are counted first-party because Vercel Web Analytics cannot see
  * them: a request for a static file isn't a page view, and custom events are a
@@ -19,13 +20,6 @@ import { neon } from "@neondatabase/serverless";
  * Best-effort: a logging failure is reported and swallowed, because a failed
  * write must never cost the reader the file.
  */
-
-/**
- * Whether this instance has already ensured the table exists. The DDL runs
- * once per cold start rather than per request, and needs no manual Neon
- * setup — the table creates itself on the first download.
- */
-let tableReady = false;
 
 /** `?from=` on this request, else `?from=` on the page that linked here. */
 function resolveSource(url: URL, referrer: string | null): string | null {
@@ -54,21 +48,6 @@ export async function logDownload(request: Request, asset: string, source?: stri
       return;
     }
     const sql = neon(dbUrl);
-    if (!tableReady) {
-      await sql`
-        CREATE TABLE IF NOT EXISTS landing_downloads (
-          id SERIAL PRIMARY KEY,
-          asset TEXT NOT NULL,
-          source TEXT,
-          referrer TEXT,
-          user_agent TEXT,
-          country TEXT,
-          city TEXT,
-          downloaded_at TIMESTAMPTZ NOT NULL DEFAULT now()
-        )
-      `;
-      tableReady = true;
-    }
     await sql`
       INSERT INTO landing_downloads
         (asset, source, referrer, user_agent, country, city)
