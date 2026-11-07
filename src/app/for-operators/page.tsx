@@ -5,8 +5,6 @@ export const metadata: Metadata = {
   title: "For operators",
   description:
     "Strategy drifts when the world changes faster than execution can adapt. Download the operator brief.",
-  // Reached from links Aaron shares, not from search, until the pages are announced.
-  robots: { index: false, follow: true },
 };
 
 export default function ForOperatorsPage() {

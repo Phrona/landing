@@ -13,6 +13,18 @@ export function Footer() {
             Understanding Phrona
           </a>
           <a
+            href="/for-operators"
+            className="hover:text-[rgba(255,255,255,0.75)] transition-colors"
+          >
+            For operators
+          </a>
+          <a
+            href="/for-investors"
+            className="hover:text-[rgba(255,255,255,0.75)] transition-colors"
+          >
+            For investors
+          </a>
+          <a
             href="/privacy"
             className="hover:text-[rgba(255,255,255,0.75)] transition-colors"
           >

@@ -5,8 +5,6 @@ export const metadata: Metadata = {
   title: "For investors",
   description:
     "The investment thesis formed in diligence can fall out of date after you invest. Download the investor brief.",
-  // Reached from links Aaron shares, not from search, until the pages are announced.
-  robots: { index: false, follow: true },
 };
 
 export default function ForInvestorsPage() {
