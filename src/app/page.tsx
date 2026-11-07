@@ -238,8 +238,8 @@ export default function Home() {
                 <p className="text-xs sm:text-sm uppercase tracking-[0.2em] text-muted-foreground mb-5">{p.eyebrow}</p>
                 <h3 className="font-heading text-2xl sm:text-3xl font-medium leading-[1.25] mb-5">{p.title}</h3>
                 <p className="text-base sm:text-lg text-muted-foreground leading-relaxed mb-8">{p.body}</p>
-                <span className="mt-auto text-base sm:text-lg font-semibold text-foreground underline decoration-border underline-offset-4 group-hover:decoration-foreground transition-colors">
-                  {p.cta} &rarr;
+                <span className="mt-auto self-start inline-flex items-center justify-center px-6 py-3 border border-foreground/70 rounded-full text-base sm:text-lg font-bold text-foreground group-hover:border-foreground group-hover:shadow-[0_0_20px_rgba(120,180,255,0.40),0_0_44px_rgba(120,180,255,0.22)] transition-shadow">
+                  {p.cta}
                 </span>
               </Link>
             ))}
