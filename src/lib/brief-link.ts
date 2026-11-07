@@ -11,13 +11,27 @@ import type { BriefSlug } from "@/lib/briefs";
  *
  * Signed with BRIEF_LINK_SECRET (HMAC-SHA256). When the secret is missing no
  * link is issued and none is accepted: the gate never opens by default.
+ *
+ * Rotating the key: move the current value to BRIEF_LINK_SECRET_PREVIOUS and
+ * set a new BRIEF_LINK_SECRET. New links use the new key; links already sent
+ * keep working because the previous key is still accepted. Remove the previous
+ * key only to revoke every link signed with it, for example after a leak.
  */
 
 type Payload = { b: BriefSlug; r: number | null; n: string };
 
-function secret(): string | null {
-  const s = process.env.BRIEF_LINK_SECRET;
+function usable(s: string | undefined): string | null {
   return s && s.length >= 32 ? s : null;
+}
+
+/** The key new links are signed with. */
+function secret(): string | null {
+  return usable(process.env.BRIEF_LINK_SECRET);
+}
+
+/** Every key a link may have been signed with: the current one, then the previous one. */
+function acceptedSecrets(): string[] {
+  return [secret(), usable(process.env.BRIEF_LINK_SECRET_PREVIOUS)].filter((k): k is string => k !== null);
 }
 
 function sign(body: string, key: string): string {
@@ -48,14 +62,17 @@ export type TokenCheck =
 
 /** Checks a `t` value against the brief being downloaded. */
 export function verifyBriefToken(token: string | null, brief: BriefSlug): TokenCheck {
-  const key = secret();
-  if (!key) return { status: "unavailable" };
+  const keys = acceptedSecrets();
+  if (!secret()) return { status: "unavailable" };
   if (!token) return { status: "invalid" };
   const [body, sig] = token.split(".");
   if (!body || !sig) return { status: "invalid" };
-  const expected = Buffer.from(sign(body, key));
   const given = Buffer.from(sig);
-  if (expected.length !== given.length || !timingSafeEqual(expected, given)) return { status: "invalid" };
+  const signedByUs = keys.some((key) => {
+    const expected = Buffer.from(sign(body, key));
+    return expected.length === given.length && timingSafeEqual(expected, given);
+  });
+  if (!signedByUs) return { status: "invalid" };
   try {
     const p = JSON.parse(Buffer.from(body, "base64url").toString("utf8")) as Payload;
     if (p.b !== brief) return { status: "invalid" };
