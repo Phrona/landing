@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { NEWSLETTER_PROMISE, NewsletterForm } from "@/components/newsletter-form";
+import { NewsletterForm } from "@/components/newsletter-form";
 
 const linkClass = "text-[rgba(255,255,255,0.55)] hover:text-[rgba(255,255,255,0.9)] transition-colors";
 const headingClass = "text-xs uppercase tracking-[0.18em] text-[rgba(255,255,255,0.4)] mb-4";
@@ -48,7 +48,6 @@ export function Footer() {
 
         <div className="col-span-2 md:col-span-1">
           <p className={headingClass}>Stay informed</p>
-          <p className="text-[rgba(255,255,255,0.55)] leading-relaxed mb-4">{NEWSLETTER_PROMISE}</p>
           <NewsletterForm compact />
         </div>
 
