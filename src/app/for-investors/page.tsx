@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { BriefPage } from "@/components/brief-page";
+import { NextSteps } from "@/components/next-steps";
 
 export const metadata: Metadata = {
   title: "For investors",
@@ -28,18 +28,7 @@ export default function ForInvestorsPage() {
       briefSlug="investor-brief"
       cover={{ src: "/briefs/investor-brief-cover.png", alt: "Cover of the Phrona investor brief" }}
     >
-      <div className="border-t border-border mt-16 pt-16">
-        <h2 className="font-heading text-3xl sm:text-4xl font-medium mb-6 leading-[1.15]">Talk about your portfolio</h2>
-        <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed mb-10">
-          Tell us about an investment, or a decision ahead of you, and we&rsquo;ll show you how Phrona would keep the thesis behind it current.
-        </p>
-        <Link
-          href="/connect"
-          className="inline-flex items-center justify-center px-6 py-3 bg-hero text-hero-foreground rounded-full text-lg font-bold hover:shadow-[0_0_28px_rgba(120,180,255,0.65),0_0_64px_rgba(120,180,255,0.40)] transition-shadow"
-        >
-          Connect with Phrona
-        </Link>
-      </div>
+      <NextSteps audience="investor" />
     </BriefPage>
   );
 }

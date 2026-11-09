@@ -2,13 +2,14 @@
 
 import { neon } from "@neondatabase/serverless";
 import nodemailer from "nodemailer";
+import { CYAN, MUTED, NAVY, RULE, SUBTLE, SURFACE, emailHeader as header, emailShell, escapeHtml } from "@/lib/mail";
 
 export type InquiryResult =
   | { ok: true }
   | { ok: false; error: string };
 
 /**
- * Server action — the founding-cohort application on /for-operators.
+ * Server action — the founding-beta application on /for-operators and /for-investors.
  *
  * Flow: validate → anti-spam check → send to hello@phrona.io + auto-reply to applicant.
  *
@@ -43,7 +44,8 @@ export async function submitInquiry(formData: FormData): Promise<InquiryResult> 
     company: String(formData.get("company") ?? "").trim(),
     role: String(formData.get("role") ?? "").trim(),
     context: String(formData.get("context") ?? "").trim(),
-    audience: "operator",
+    // Operators and investors both apply to the founding beta (Aaron, 2026-11-09).
+    audience: formData.get("audience") === "investor" ? "investor" : "operator",
   };
 
   // --- Validation ---
@@ -95,7 +97,7 @@ export async function submitInquiry(formData: FormData): Promise<InquiryResult> 
     auth: { user: smtpUser, pass: smtpPass },
   });
 
-  const subject = `[Phrona inquiry] ${data.company} — ${data.name}`;
+  const subject = `[Phrona founding beta] ${data.company} — ${data.name} (${data.audience})`;
   const notificationText = [
     `Name: ${data.name}`,
     `Email: ${data.email}`,
@@ -110,7 +112,7 @@ export async function submitInquiry(formData: FormData): Promise<InquiryResult> 
   const autoReplyText = [
     `Hi ${firstName},`,
     "",
-    "Thanks for inquiring about Phrona's founding cohort.",
+    "Thanks for applying to join Phrona's founding beta.",
     "",
     "We've received your note and will be in touch within 48 hours.",
     "",
@@ -300,61 +302,13 @@ async function markInquiryStatus(id: number | null, status: string): Promise<voi
   }
 }
 
-function escapeHtml(s: string): string {
-  return s
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;");
-}
-
-const NAVY = "#081122";
-const CYAN = "rgb(120, 180, 255)";
-const SURFACE = "#f4f5f7";
-const RULE = "#e5e7eb";
-const MUTED = "#6b7280";
-const SUBTLE = "#9ca3af";
-const FONT_STACK =
-  "-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif";
-
-function emailShell(inner: string): string {
-  return `<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="color-scheme" content="light only">
-<meta name="supported-color-schemes" content="light">
-<title>Phrona</title>
-</head>
-<body style="margin:0;padding:0;background:${SURFACE};font-family:${FONT_STACK};color:${NAVY};-webkit-font-smoothing:antialiased;">
-  <div style="max-width:560px;margin:0 auto;background:#ffffff;">
-    ${inner}
-  </div>
-</body>
-</html>`;
-}
-
-function header(eyebrow?: string): string {
-  return `<div style="background:${NAVY};padding:32px 40px;">
-    <img src="https://phrona.io/email-logo-phrona.png" width="140" height="55" alt="Phrona" style="display:block;border:0;outline:none;text-decoration:none;height:auto;line-height:100%;" />${
-      eyebrow
-        ? `<div style="color:#9aa3b3;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;margin-top:18px;">${escapeHtml(
-            eyebrow,
-          )}</div>`
-        : ""
-    }
-  </div>`;
-}
-
 function autoReplyHtml(firstName: string): string {
   const safeName = escapeHtml(firstName);
   return emailShell(
     `${header()}
     <div style="padding:40px 40px 36px 40px;">
       <p style="margin:0 0 18px 0;font-size:16px;line-height:1.55;">Hi ${safeName},</p>
-      <p style="margin:0 0 18px 0;font-size:16px;line-height:1.55;">Thanks for inquiring about Phrona's founding cohort.</p>
+      <p style="margin:0 0 18px 0;font-size:16px;line-height:1.55;">Thanks for applying to join Phrona's founding beta.</p>
       <p style="margin:0 0 28px 0;font-size:16px;line-height:1.55;">We've received your note and will be in touch within 48 hours.</p>
       <p style="margin:0;font-size:16px;line-height:1.55;color:${NAVY};">&mdash; Phrona</p>
     </div>
@@ -381,7 +335,7 @@ function notificationHtml(data: {
     `<tr><td style="padding:6px 16px 6px 0;color:${MUTED};width:84px;vertical-align:top;">${label}</td><td style="padding:6px 0;color:${NAVY};font-weight:600;">${value}</td></tr>`;
 
   return emailShell(
-    `${header("Founding-cohort inquiry")}
+    `${header("Founding-beta application")}
     <div style="padding:32px 40px 24px 40px;">
       <table cellpadding="0" cellspacing="0" border="0" style="width:100%;font-size:14px;line-height:1.55;border-collapse:collapse;">
         ${row("Name", name)}

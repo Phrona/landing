@@ -9,8 +9,8 @@ import type { BriefSlug } from "@/lib/briefs";
  * The offer comes first: the headline, one paragraph on the problem, then the
  * request form. Below it, three one-line claims and what the reader gets in
  * the brief, with its cover, so the offer is concrete. Each page then closes on
- * its next step: the founding-cohort application for operators, a conversation
- * for investors.
+ * its next steps, the same for both readers (`NextSteps`): a free Strategy
+ * Snapshot, then the founding-beta application.
  */
 export function BriefPage({
   eyebrow,
@@ -29,7 +29,7 @@ export function BriefPage({
   inside: string[];
   briefSlug: BriefSlug;
   cover: { src: string; alt: string };
-  /** What follows the brief: the cohort application, or a way to talk. */
+  /** What follows the brief: the shared next steps. */
   children?: ReactNode;
 }) {
   return (

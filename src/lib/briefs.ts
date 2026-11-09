@@ -67,6 +67,15 @@ export async function recordBriefRequest(r: {
 
 
 /**
+ * The two lists in `landing_subscribers`, told apart by `audience`:
+ *  - product updates: "operators" / "investors", ticked on a brief request form
+ *  - the Phrona newsletter: "newsletter", from the footer, /how-it-works and the
+ *    Snapshot form. The newsletter also goes to everyone on product updates
+ *    (Aaron, 2026-11-09).
+ */
+export const NEWSLETTER = "newsletter";
+
+/**
  * Adds an address to the mailing list (`landing_subscribers`). Only called when
  * the reader ticked the opt-in box, which is never pre-ticked. Returns true when
  * the address is on the list, including when it already was.

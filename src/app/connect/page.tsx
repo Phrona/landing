@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { ConnectForm } from "@/components/connect-form";
 
 export const metadata: Metadata = {
@@ -18,6 +19,13 @@ export default function ConnectPage() {
             </h1>
             <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed">
               Tell us what you&rsquo;re deciding, what it depends on, and what may be changing around it. We&rsquo;ll follow up to learn more and see whether Phrona can help.
+            </p>
+            <p className="text-base text-muted-foreground leading-relaxed mt-6">
+              Rather see how Phrona reads your company first?{" "}
+              <Link href="/snapshot" className="text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground">
+                Request a Strategy Snapshot
+              </Link>
+              .
             </p>
           </div>
           <ConnectForm />

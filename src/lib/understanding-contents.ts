@@ -85,7 +85,7 @@ export const CONTENT_GROUPS = [
       { title: "What does Phrona deliver?" },
       { title: "Who is Phrona for?" },
       { title: "How is our strategy kept private?" },
-      { title: "What is the Founding Cohort?" },
+      { title: "What is the founding beta?" },
       { title: "How do we get started?" },
     ],
   },

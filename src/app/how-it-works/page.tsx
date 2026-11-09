@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { NEWSLETTER_PROMISE, NewsletterForm } from "@/components/newsletter-form";
 import { SmallCaps } from "@/components/small-caps";
 import { ContentsPane } from "@/components/contents-pane";
 import {
@@ -656,10 +657,10 @@ export default function UnderstandingPhrona() {
                 </p>
               </Q>
 
-              <Q title="What is the Founding Cohort?">
+              <Q title="What is the founding beta?">
                 <p className="text-foreground font-medium">
-                  We’re inviting ten companies to help define what strategy
-                  infrastructure becomes.
+                  We’re inviting a small group of companies and investors to
+                  help define what strategy infrastructure becomes.
                 </p>
                 <p>
                   Founding members will deploy Phrona against consequential
@@ -688,6 +689,17 @@ export default function UnderstandingPhrona() {
               </Q>
             </div>
 
+            {/* ——— Newsletter ——— */}
+            <div className="mt-24 pt-16 border-t border-border text-center">
+              <h2 className="font-heading text-2xl sm:text-3xl font-medium mb-4 leading-[1.2]">
+                Get the Phrona newsletter
+              </h2>
+              <p className="text-base sm:text-lg text-muted-foreground leading-relaxed max-w-xl mx-auto mb-8">
+                {NEWSLETTER_PROMISE}
+              </p>
+              <NewsletterForm />
+            </div>
+
             {/* ——— Close ——— */}
             <div className="mt-24 pt-20 text-center">
               <p className="text-xl sm:text-2xl text-muted-foreground leading-relaxed mb-8">
@@ -698,14 +710,23 @@ export default function UnderstandingPhrona() {
               </p>
               <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto mb-14">
                 Ready to explore whether Phrona is a fit for your company — and
-                whether joining the Founding Cohort makes sense? Let’s connect.
+                whether joining the founding beta makes sense? Let’s connect,
+                or start with a free Strategy Snapshot of your company.
               </p>
-              <Link
-                href="/connect"
-                className="inline-flex items-center justify-center px-6 py-3 bg-hero text-hero-foreground rounded-full text-lg font-bold hover:shadow-[0_0_28px_rgba(120,180,255,0.65),0_0_64px_rgba(120,180,255,0.40)]"
-              >
-                Connect with Phrona
-              </Link>
+              <div className="flex flex-wrap items-center justify-center gap-4">
+                <Link
+                  href="/connect"
+                  className="inline-flex items-center justify-center px-6 py-3 bg-hero text-hero-foreground rounded-full text-lg font-bold hover:shadow-[0_0_28px_rgba(120,180,255,0.65),0_0_64px_rgba(120,180,255,0.40)]"
+                >
+                  Connect with Phrona
+                </Link>
+                <Link
+                  href="/snapshot"
+                  className="inline-flex items-center justify-center px-6 py-3 border border-foreground/70 rounded-full text-lg font-bold text-foreground hover:border-foreground hover:shadow-[0_0_20px_rgba(120,180,255,0.40),0_0_44px_rgba(120,180,255,0.22)] transition-shadow"
+                >
+                  Request a Strategy Snapshot
+                </Link>
+              </div>
               <p className="mt-12 text-sm text-muted-foreground">
                 <a
                   href="/download/understanding-phrona"

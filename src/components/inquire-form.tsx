@@ -16,7 +16,7 @@ const fieldClass =
 const labelClass =
   "block text-sm font-medium text-muted-foreground mb-2";
 
-export function InquireForm() {
+export function InquireForm({ audience = "operator" }: { audience?: "operator" | "investor" }) {
   const [pending, startTransition] = useTransition();
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -52,6 +52,7 @@ export function InquireForm() {
           meaningless to autofill heuristics (never "url"/"company"/"website" —
           Chrome autofills hidden fields it recognizes, silently dropping real
           submissions). */}
+      <input type="hidden" name="audience" value={audience} />
       <div aria-hidden="true" className="absolute -left-[9999px]">
         <label htmlFor="no_fill">Don&apos;t fill this out:</label>
         <input

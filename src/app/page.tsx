@@ -68,7 +68,7 @@ const PATHS = [
     href: "/for-operators",
     eyebrow: "For operators",
     title: "Keep important decisions connected to the conditions they depend on.",
-    body: "See when changing conditions call for a second look, before time and capital follow the original plan. The founding cohort is open to ten companies.",
+    body: "See when changing conditions call for a second look, before time and capital follow the original plan. The founding beta has limited availability.",
     cta: "Get the operator brief",
   },
   {
@@ -82,6 +82,9 @@ const PATHS = [
 
 const primaryButton =
   "inline-flex items-center justify-center px-6 py-3 bg-hero text-hero-foreground rounded-full text-lg font-bold hover:opacity-100 hover:shadow-[0_0_28px_rgba(120,180,255,0.65),0_0_64px_rgba(120,180,255,0.40)]";
+
+const outlineButton =
+  "inline-flex items-center justify-center px-6 py-3 border border-foreground/70 rounded-full text-lg font-bold text-foreground hover:border-foreground hover:shadow-[0_0_20px_rgba(120,180,255,0.40),0_0_44px_rgba(120,180,255,0.22)] transition-shadow";
 
 export default function Home() {
   return (
@@ -256,9 +259,14 @@ export default function Home() {
           <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto mb-12">
             Tell us what you&rsquo;re deciding and what it depends on. We&rsquo;ll show you how Phrona would keep it current.
           </p>
-          <Link href="/connect" className={primaryButton}>
-            Connect with Phrona
-          </Link>
+          <div className="flex flex-wrap items-center justify-center gap-4">
+            <Link href="/connect" className={primaryButton}>
+              Connect with Phrona
+            </Link>
+            <Link href="/snapshot" className={outlineButton}>
+              Request a Strategy Snapshot
+            </Link>
+          </div>
         </div>
       </section>
     </main>
