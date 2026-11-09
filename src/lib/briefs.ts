@@ -78,7 +78,9 @@ export const NEWSLETTER = "newsletter";
 /**
  * Adds an address to the mailing list (`landing_subscribers`). Only called when
  * the reader ticked the opt-in box, which is never pre-ticked. Returns true when
- * the address is on the list, including when it already was.
+ * the address is on the list, including when it already was. Signing up again
+ * after an unsubscribe puts the address back on the list (`unsubscribed_at`,
+ * the backend's migration 093).
  */
 export async function addSubscriber(email: string, audience: string): Promise<boolean> {
   const sql = db();
@@ -90,7 +92,7 @@ export async function addSubscriber(email: string, audience: string): Promise<bo
     await sql`
       INSERT INTO landing_subscribers (email, audience)
       VALUES (${email.toLowerCase()}, ${audience})
-      ON CONFLICT (email, audience) DO NOTHING
+      ON CONFLICT (email, audience) DO UPDATE SET unsubscribed_at = NULL
     `;
     return true;
   } catch (err) {
