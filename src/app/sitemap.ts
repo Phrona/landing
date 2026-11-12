@@ -30,6 +30,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "yearly",
       priority: 0.3,
     },
+    { url: `${BASE}/privacy/archive`, lastModified: now, changeFrequency: "yearly", priority: 0.2 },
     {
       url: `${BASE}/terms`,
       lastModified: now,

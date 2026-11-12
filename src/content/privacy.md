@@ -1,6 +1,8 @@
 # Privacy Policy
 
-> This Privacy Policy is effective as of **April 28, 2026**. By accessing or using phrona.io, you agree to the practices described in this policy.
+> This Privacy Policy is effective as of **December 14, 2026**. By accessing or using phrona.io, you agree to the practices described in this policy.
+>
+> **Notice of changes, posted November 12, 2026.** This version adds how Phrona handles content you share through its connected apps: emails sent to your company's Phrona address, the Phrona add-ons for Gmail and Outlook, and the Phrona browser extension (§3.1, §3.2, §3.3, §4.6 and §6). It also corrects how we describe the separation of customer data. Until December 14, 2026, [the version effective April 28, 2026](/privacy/archive/2026-04-28) applies. [All versions](/privacy/archive)
 
 ## 1. Overview
 
@@ -13,7 +15,7 @@ Phrona is designed for companies handling sensitive strategic information. Our a
 > - We collect the **minimum personal information** needed to deliver the Service.
 > - We do **not** sell personal information.
 > - We do **not** train AI models on Customer Content.
-> - Each customer's strategic graph is **single-tenant** — we do not pool customer data across tenants.
+> - Each customer's data is **logically separated** from every other customer's. We do not pool customer data across tenants.
 
 ## 2. Who We Are
 
@@ -23,7 +25,7 @@ Phrona is designed for companies handling sensitive strategic information. Our a
 >
 > **Website:** [https://phrona.io](https://phrona.io)
 >
-> Phrona is the controller of your personal information for purposes of GDPR and applicable US state privacy laws.
+> Phrona is the controller of your personal information for purposes of GDPR and applicable US state privacy laws. When we process personal information contained in Customer Content on behalf of a customer, that customer is the controller and Phrona acts as its processor, under our agreement with that customer.
 
 ## 3. Information We Collect
 
@@ -33,17 +35,20 @@ Phrona is designed for companies handling sensitive strategic information. Our a
 - **Billing information:** billing contact, billing address, and payment details (payment-card data is processed by our payment processor and we do not store full card numbers)
 - **Communications:** content of inquiries, support requests, and survey responses you submit
 - **Content you submit to the Service:** documents you upload, data you enter, and any content you or an Authorized User creates in the Service (collectively, "**Customer Content**")
+- **Content you send from Phrona's connected apps:** emails and attachments you forward to your company's Phrona address, emails you send to Phrona from the Phrona add-on in Gmail or Outlook, and web pages you send from the Phrona browser extension, together with any question you ask about them. This is Customer Content.
 
 ### 3.2 Information We Collect Automatically
 
 - **Log data:** IP address, device and browser type, operating system, referring URL, pages viewed, and timestamps
 - **Cookies and similar technologies:** session cookies, authentication tokens, and limited analytics (see §8)
 - **Performance data:** application error reports, feature-usage metrics, and latency measurements used to improve the Service
+- **The browser extension and email add-ons:** when you use the Phrona browser extension on a web page, or the Phrona add-on in Gmail or Outlook on an email, it reads that page or email to show you related information from your company's account. The content is saved to your account only when you choose to save it or ask a question about it. The extension does not collect your browsing history. It checks the addresses of pages you visit on your device, to show when a page relates to your account; those addresses are not sent to Phrona.
 
 ### 3.3 Information From Third Parties
 
-- **Enrichment sources:** when you use the Service, we gather information from public or third-party sources about the companies, markets, and people in your strategic ecosystem. This data is stored in your Client Graph. Public-source data may include names, titles, and professional information of individuals that is lawfully available through news, press releases, regulatory filings, and similar sources.
+- **Enrichment sources:** when you use the Service, we gather information from public or third-party sources about the companies, markets, and people in your strategic ecosystem. This information is stored in your company's account. Public-source data may include names, titles, and professional information of individuals that is lawfully available through news, press releases, regulatory filings, and similar sources.
 - **Referral or partner information:** if you reach us through a referral or partner, we may receive the referrer's name or partner identifier.
+- **People named in what you send:** emails and pages you send may contain personal information about other people, such as the sender of a forwarded email or people mentioned in it. Your company is the controller of that information, and we process it on your company's behalf.
 
 ### 3.4 Information We Do Not Collect
 
@@ -78,7 +83,15 @@ We use personal information for the following purposes:
 
 ### 4.5 Customer Content
 
-We process Customer Content **only to provide and improve the Service for the customer who submitted it**, in accordance with the contract executed with that customer. We do **not** train our AI models on Customer Content except where we have the customer's prior written agreement. We do **not** share Customer Content with other customers except as described in §5.2 (Central Intelligence Layer — public-source data only).
+We process Customer Content **only to provide and improve the Service for the customer who submitted it**, in accordance with the contract executed with that customer. We do **not** use Customer Content to train AI models. We do **not** share Customer Content with other customers.
+
+### 4.6 Information From Google
+
+The Phrona add-on for Gmail reads the email you have open when you use it, to show related information from your company's account. Phrona stores that email only when you choose to save it or ask a question about it, and shares it only with the sub-processors that provide the Service.
+
+Phrona does not use data from Gmail or other Google Workspace services to develop, improve, or train generalized AI or machine-learning models, does not use it for advertising, and does not allow people to read it except with your permission, for security purposes, or to comply with the law.
+
+Phrona's use of information received from Google APIs will adhere to Google API Services User Data Policy, including the Limited Use requirements.
 
 ## 5. How We Share Information
 
@@ -88,9 +101,9 @@ We do not sell personal information. We share personal information in the follow
 
 We use third-party sub-processors to operate the Service. Sub-processors may process personal data only to the extent necessary to provide their service to us and under written obligations consistent with this Privacy Policy.
 
-### 5.2 Central Intelligence Layer (Future)
+### 5.2 Publicly Available Information
 
-When we activate our central intelligence layer, **only public-source data** (news, regulatory filings, press releases, and similar) will be aggregated across customers. Customer Content — documents you upload, proprietary data, or confidential information — never enters this layer.
+We may combine **publicly available information**, such as news, regulatory filings and press releases, across customers to improve the Service. Customer Content never leaves the account of the customer who submitted it.
 
 ### 5.3 Business Transfers
 
@@ -108,6 +121,7 @@ We may share personal information with your consent or at your direction.
 
 - **Account information:** for as long as you maintain an account, plus a reasonable period to comply with legal and business obligations (typically up to seven (7) years for tax and contract records)
 - **Customer Content:** in accordance with the customer's contract and deletion instructions
+- **Content sent from connected apps:** kept as Customer Content. Emails sent to your company's Phrona address are also held by our email-delivery provider for up to 30 days and then deleted.
 - **Log and usage data:** up to twenty-four (24) months, except where longer retention is required for security or legal reasons
 - **Marketing records:** until you unsubscribe or request deletion, plus a reasonable period for suppression records to honor your unsubscribe
 
