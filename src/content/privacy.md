@@ -127,7 +127,7 @@ We may share personal information with your consent or at your direction.
 
 ## 7. Your Rights
 
-Depending on where you are located, you may have the following rights. To exercise any right, email [hello@phrona.io](mailto:hello@phrona.io). We will respond within the timeframe required by applicable law (typically 30 days under GDPR; 45 days under CCPA/CPRA, with one 45-day extension permitted).
+Depending on where you are located, you may have the following rights. To exercise any right, email [privacy@phrona.io](mailto:privacy@phrona.io). We will respond within the timeframe required by applicable law (typically 30 days under GDPR; 45 days under CCPA/CPRA, with one 45-day extension permitted).
 
 ### 7.1 All Users
 
@@ -187,7 +187,7 @@ We implement appropriate technical and organizational measures to protect person
 
 ## 12. Children's Privacy
 
-The Service is not directed to children under 16, and we do not knowingly collect personal information from children under 16. If you believe a child has provided personal information to us, please contact [hello@phrona.io](mailto:hello@phrona.io) and we will promptly delete it.
+The Service is not directed to children under 16, and we do not knowingly collect personal information from children under 16. If you believe a child has provided personal information to us, please contact [privacy@phrona.io](mailto:privacy@phrona.io) and we will promptly delete it.
 
 ## 13. Changes to This Privacy Policy
 
@@ -199,6 +199,6 @@ For privacy inquiries, rights requests, or to report a data security concern, co
 
 > **Phrona, Inc.**
 >
-> **Email:** [hello@phrona.io](mailto:hello@phrona.io)
+> **Email:** [privacy@phrona.io](mailto:privacy@phrona.io)
 >
 > **Website:** [https://phrona.io](https://phrona.io)
