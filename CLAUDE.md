@@ -51,7 +51,9 @@ scripts/                  Brand asset generators
 
 ## Headline + framing (locked)
 
-- Hero headline: *"Phrona is infrastructure for strategy."* (the live hero; the older "Your strategy. Made coherent. Brought to life." is retired)
+**2026-11-13, Aaron: the site is due a full reorganisation around decisions, and the list below is out of date.** The ruled H1 is *"Decisions are expensive."*; its second line is not yet ruled. It goes live with the reorganisation; until then the live hero still reads "Phrona is infrastructure for strategy." The pain-section lines below (eyebrow, "Does any of this feel familiar?", the unifier, the resolution) describe an earlier home page, not the live one. Canonical record: the Phrona repo's `docs/POSITIONING_DECISIONS.md`, P2 "Decisions-led messaging".
+
+- Hero headline (live until the reorganisation): *"Phrona is infrastructure for strategy."* (the older "Your strategy. Made coherent. Brought to life." is retired)
 - Pain section eyebrow: "Strategy is complex. It's easy to get lost." (uppercase, tracked)
 - Pain section H2: "Does any of this feel familiar?"
 - Unifier: "These breakdowns share a root cause: **strategy without infrastructure.**"
